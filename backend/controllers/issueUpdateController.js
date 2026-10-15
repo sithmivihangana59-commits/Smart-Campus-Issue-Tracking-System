@@ -16,14 +16,6 @@ const addIssueUpdate = async (req, res) => {
             });
         }
 
-        if (
-            req.user.role === "Staff" &&
-            (!issue.assignedTo ||
-                issue.assignedTo.toString() !== req.user.userId.toString())
-        ) {
-            return res.status(404).json({ message: "Issue not found" });
-        }
-
         // Check required fields
         if (!status || !message) {
             return res.status(400).json({
@@ -78,14 +70,6 @@ const getIssueUpdates = async (req, res) => {
         if (
             req.user.role === "Student" &&
             issue.reportedBy.toString() !== req.user.userId.toString()
-        ) {
-            return res.status(404).json({ message: "Issue not found" });
-        }
-
-        if (
-            req.user.role === "Staff" &&
-            (!issue.assignedTo ||
-                issue.assignedTo.toString() !== req.user.userId.toString())
         ) {
             return res.status(404).json({ message: "Issue not found" });
         }

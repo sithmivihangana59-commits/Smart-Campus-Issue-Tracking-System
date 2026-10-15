@@ -18,13 +18,12 @@ const createIssue = async (req, res) => {
         if (
             !category ||
             !building ||
-            !room ||
             !title ||
             !description
         ) {
             return res.status(400).json({
                 message:
-                    "Category, building, room, title and description are required"
+                    "Category, building, title and description are required"
             });
         }
 
@@ -66,11 +65,9 @@ const createIssue = async (req, res) => {
 
 const getAllIssues = async (req, res) => {
     try {
-        const filter = req.user.role === "Admin"
-            ? {}
-            : req.user.role === "Staff"
-                ? { assignedTo: req.user.userId }
-                : { reportedBy: req.user.userId };
+        const filter = req.user.role === "Student"
+            ? { reportedBy: req.user.userId }
+            : {};
 
         const issues = await Issue
             .find(filter)
@@ -148,14 +145,6 @@ const getIssueById = async (req, res) => {
             return res.status(404).json({ message: "Issue not found" });
         }
 
-        if (
-            req.user.role === "Staff" &&
-            (!issue.assignedTo ||
-                issue.assignedTo._id.toString() !== req.user.userId.toString())
-        ) {
-            return res.status(404).json({ message: "Issue not found" });
-        }
-
         res.status(200).json({
             message: "Issue retrieved successfully!",
             issue: issue
@@ -182,14 +171,6 @@ const updateIssue = async (req, res) => {
             return res.status(404).json({
                 message: "Issue not found"
             });
-        }
-
-        if (
-            req.user.role === "Staff" &&
-            (!issue.assignedTo ||
-                issue.assignedTo.toString() !== req.user.userId.toString())
-        ) {
-            return res.status(404).json({ message: "Issue not found" });
         }
 
         const staffEditableFields = ["status", "priority"];
@@ -306,14 +287,6 @@ const assignIssue = async (req, res) => {
             return res.status(400).json({
                 message: "Selected user is not a Staff member"
             });
-        }
-
-        if (
-            req.user.role === "Staff" &&
-            (!issue.assignedTo ||
-                issue.assignedTo.toString() !== req.user.userId.toString())
-        ) {
-            return res.status(404).json({ message: "Issue not found" });
         }
 
         // Assign staff

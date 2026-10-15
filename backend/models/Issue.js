@@ -14,7 +14,7 @@ const issueSchema = new mongoose.Schema(
 
         room: {
             type: String,
-            required: true
+            default: ""
         },
 
         title: {
