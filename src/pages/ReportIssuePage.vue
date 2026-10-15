@@ -219,7 +219,7 @@
             <input
               ref="fileInput"
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp"
               style="display: none"
               @change="handleFile"
             />
@@ -495,14 +495,14 @@ async function submitReport () {
   submitting.value = true
 
   try {
-    const issueData = {
-      category: form.category,
-      building: form.building,
-      room: form.room,
-      title: form.title,
-      description: form.description,
-      priority: form.priority,
-    }
+    const issueData = new FormData()
+    issueData.append('category', form.category)
+    issueData.append('building', form.building)
+    issueData.append('room', form.room)
+    issueData.append('title', form.title)
+    issueData.append('description', form.description)
+    issueData.append('priority', form.priority)
+    if (form.photo) issueData.append('image', form.photo)
     console.log("SENDING ISSUE", issueData)
     const data = await createIssue(issueData)
     console.log("ISSUE CREATED", data)
