@@ -1,26 +1,21 @@
 <template>
   <q-page class="report-page">
-
     <!-- BACKGROUND -->
     <div class="report-bg">
       <div class="bg-orb orb-1"></div>
       <div class="bg-orb orb-2"></div>
     </div>
 
-
     <!-- CONTENT -->
     <div class="report-wrapper">
-
       <!-- BACK BUTTON -->
       <button class="back-btn" @click="goHome">
         <q-icon name="arrow_back" size="18px" />
         Back to Home
       </button>
 
-
       <!-- HEADER -->
       <div class="page-header">
-
         <div class="header-badge">
           <q-icon name="report_problem" size="16px" />
           Report a Campus Issue
@@ -32,19 +27,15 @@
         </h1>
 
         <p class="page-subtitle">
-          Fill in the details below and our team will
-          review and resolve the issue as soon as possible.
+          Fill in the details below and our team will review and resolve the
+          issue as soon as possible.
         </p>
-
       </div>
-
 
       <!-- FORM CARD -->
       <form class="report-form" @submit.prevent="submitReport">
-
         <!-- STEP 1: CATEGORY -->
         <div class="form-section">
-
           <div class="section-label">
             <div class="label-number">01</div>
             <div>
@@ -54,7 +45,6 @@
           </div>
 
           <div class="category-grid">
-
             <div
               v-for="cat in categories"
               :key="cat.value"
@@ -62,24 +52,23 @@
               :class="{ selected: form.category === cat.value }"
               @click="form.category = cat.value"
             >
-              <div class="cat-icon" :style="{ background: cat.bg, color: cat.color }">
+              <div
+                class="cat-icon"
+                :style="{ background: cat.bg, color: cat.color }"
+              >
                 <q-icon :name="cat.icon" size="22px" />
               </div>
               <span>{{ cat.label }}</span>
             </div>
-
           </div>
 
           <div v-if="errors.category" class="field-error">
             <q-icon name="error_outline" size="14px" /> Please select a category
           </div>
-
         </div>
-
 
         <!-- STEP 2: LOCATION -->
         <div class="form-section">
-
           <div class="section-label">
             <div class="label-number">02</div>
             <div>
@@ -89,14 +78,15 @@
           </div>
 
           <div class="fields-row">
-
             <div class="form-field">
               <label>Building / Area</label>
               <div class="input-wrap">
                 <q-icon name="location_on" class="field-icon" />
                 <select v-model="form.building">
                   <option value="" disabled>Select building</option>
-                  <option v-for="b in buildings" :key="b" :value="b">{{ b }}</option>
+                  <option v-for="b in buildings" :key="b" :value="b">{{
+                    b
+                  }}</option>
                 </select>
               </div>
               <div v-if="errors.building" class="field-error">
@@ -115,15 +105,11 @@
                 />
               </div>
             </div>
-
           </div>
-
         </div>
-
 
         <!-- STEP 3: ISSUE DETAILS -->
         <div class="form-section">
-
           <div class="section-label">
             <div class="label-number">03</div>
             <div>
@@ -161,16 +147,14 @@
             </div>
             <div class="char-count">{{ form.description.length }}/500</div>
             <div v-if="errors.description" class="field-error">
-              <q-icon name="error_outline" size="14px" /> Please describe the issue
+              <q-icon name="error_outline" size="14px" /> Please describe the
+              issue
             </div>
           </div>
-
         </div>
-
 
         <!-- STEP 4: PRIORITY -->
         <div class="form-section">
-
           <div class="section-label">
             <div class="label-number">04</div>
             <div>
@@ -180,26 +164,24 @@
           </div>
 
           <div class="priority-row">
-
             <div
               v-for="p in priorities"
               :key="p.value"
               class="priority-btn"
-              :class="[p.value.toLowerCase(), { selected: form.priority === p.value }]"
+              :class="[
+                p.value.toLowerCase(),
+                { selected: form.priority === p.value }
+              ]"
               @click="form.priority = p.value"
             >
               <q-icon :name="p.icon" size="16px" />
               {{ p.label }}
             </div>
-
           </div>
-
         </div>
-
 
         <!-- STEP 5: PHOTO -->
         <div class="form-section">
-
           <div class="section-label">
             <div class="label-number">05</div>
             <div>
@@ -213,13 +195,13 @@
             :class="{ 'has-file': previewUrl }"
             @click="triggerUpload"
             @dragover.prevent
+            @dragenter.prevent
             @drop.prevent="handleDrop"
           >
-
             <input
               ref="fileInput"
               type="file"
-              accept="image/jpeg,image/png,image/webp"
+              accept="image/jpeg,image/jpg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
               style="display: none"
               @change="handleFile"
             />
@@ -235,20 +217,28 @@
             </div>
 
             <div v-else class="upload-preview">
-              <img :src="previewUrl" alt="Preview" />
+              <img :src="previewUrl" alt="Selected photo evidence preview" />
+              <button
+                class="change-photo"
+                type="button"
+                @click.stop="triggerUpload"
+              >
+                Change photo
+              </button>
               <button
                 class="remove-photo"
                 type="button"
+                aria-label="Remove selected photo"
                 @click.stop="removePhoto"
               >
                 <q-icon name="close" size="16px" />
               </button>
             </div>
-
           </div>
-
+          <div v-if="photoError" class="photo-error" role="alert">{{
+            photoError
+          }}</div>
         </div>
-
 
         <!-- ERROR BANNER -->
         <div
@@ -270,20 +260,14 @@
           {{ errorMsg }}
         </div>
 
-
         <!-- SUBMIT -->
         <div class="form-footer">
-
           <div class="footer-note">
             <q-icon name="info_outline" size="15px" />
             Your report will be reviewed within 24 hours
           </div>
 
-          <button
-            class="submit-btn"
-            type="submit"
-            :disabled="submitting"
-          >
+          <button class="submit-btn" type="submit" :disabled="submitting">
             <span v-if="!submitting">
               <q-icon name="send" size="18px" />
               Submit Report
@@ -293,16 +277,12 @@
               Submitting...
             </span>
           </button>
-
         </div>
-
       </form>
-
 
       <!-- SUCCESS MESSAGE -->
       <transition name="fade">
         <div v-if="submitted" ref="successSection" class="success-card">
-
           <div class="success-icon">
             <q-icon name="check_circle" size="48px" />
           </div>
@@ -310,8 +290,8 @@
           <h2>Report Submitted!</h2>
 
           <p>
-            Your issue has been logged successfully.
-            Our team will review it and get back to you soon.
+            Your issue has been logged successfully. Our team will review it and
+            get back to you soon.
           </p>
 
           <div class="success-ref">
@@ -319,7 +299,6 @@
           </div>
 
           <div class="success-actions">
-
             <button class="success-btn primary" @click="submitAnother">
               Report Another Issue
             </button>
@@ -327,20 +306,15 @@
             <button class="success-btn secondary" @click="goHome">
               Back to Home
             </button>
-
           </div>
-
         </div>
       </transition>
-
     </div>
-
   </q-page>
 </template>
 
-
 <script setup>
-import { ref, reactive, nextTick } from 'vue'
+import { ref, reactive, nextTick, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { createIssue } from '@/services/issueService'
 
@@ -349,12 +323,48 @@ const router = useRouter()
 // ---- DATA ----
 
 const categories = [
-  { value: 'maintenance', label: 'Maintenance', icon: 'build', bg: '#dbeafe', color: '#1e40af' },
-  { value: 'it', label: 'IT / Tech', icon: 'computer', bg: '#e0e7ff', color: '#4338ca' },
-  { value: 'facility', label: 'Facility', icon: 'apartment', bg: '#dbeafe', color: '#1d4ed8' },
-  { value: 'safety', label: 'Safety', icon: 'health_and_safety', bg: '#fee2e2', color: '#dc2626' },
-  { value: 'cleaning', label: 'Cleaning', icon: 'cleaning_services', bg: '#dcfce7', color: '#15803d' },
-  { value: 'other', label: 'Other', icon: 'more_horiz', bg: '#f1f5f9', color: '#64748b' },
+  {
+    value: 'maintenance',
+    label: 'Maintenance',
+    icon: 'build',
+    bg: '#dbeafe',
+    color: '#1e40af'
+  },
+  {
+    value: 'it',
+    label: 'IT / Tech',
+    icon: 'computer',
+    bg: '#e0e7ff',
+    color: '#4338ca'
+  },
+  {
+    value: 'facility',
+    label: 'Facility',
+    icon: 'apartment',
+    bg: '#dbeafe',
+    color: '#1d4ed8'
+  },
+  {
+    value: 'safety',
+    label: 'Safety',
+    icon: 'health_and_safety',
+    bg: '#fee2e2',
+    color: '#dc2626'
+  },
+  {
+    value: 'cleaning',
+    label: 'Cleaning',
+    icon: 'cleaning_services',
+    bg: '#dcfce7',
+    color: '#15803d'
+  },
+  {
+    value: 'other',
+    label: 'Other',
+    icon: 'more_horiz',
+    bg: '#f1f5f9',
+    color: '#64748b'
+  }
 ]
 
 const buildings = [
@@ -368,13 +378,13 @@ const buildings = [
   'Student Centre',
   'Hostel Block',
   'Parking Area',
-  'Other / Outdoor Area',
+  'Other / Outdoor Area'
 ]
 
 const priorities = [
   { value: 'Low', label: 'Low', icon: 'arrow_downward' },
   { value: 'Medium', label: 'Medium', icon: 'remove' },
-  { value: 'High', label: 'High', icon: 'arrow_upward' },
+  { value: 'High', label: 'High', icon: 'arrow_upward' }
 ]
 
 // ---- FORM STATE ----
@@ -386,18 +396,19 @@ const form = reactive({
   title: '',
   description: '',
   priority: 'Medium',
-  photo: null,
+  photo: null
 })
 
 const errors = reactive({
   category: false,
   building: false,
   title: false,
-  description: false,
+  description: false
 })
 
 const fileInput = ref(null)
 const previewUrl = ref(null)
+const photoError = ref('')
 const successSection = ref(null)
 const submitting = ref(false)
 const submitted = ref(false)
@@ -406,42 +417,71 @@ const errorMsg = ref('')
 
 // ---- METHODS ----
 
-function goHome () {
+function goHome() {
   router.push('/')
 }
 
-function triggerUpload () {
+function triggerUpload() {
   fileInput.value?.click()
 }
 
-function handleFile (e) {
-  const file = e.target.files[0]
+function handleFile(e) {
+  const file = e.target.files?.[0]
+  if (file) applyFile(file)
+  if (fileInput.value) fileInput.value.value = ''
+}
+
+function handleDrop(e) {
+  const file = e.dataTransfer.files?.[0]
   if (file) applyFile(file)
 }
 
-function handleDrop (e) {
-  const file = e.dataTransfer.files[0]
-  if (file && file.type.startsWith('image/')) applyFile(file)
-}
+function applyFile(file) {
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp']
+  const extension = file.name.slice(file.name.lastIndexOf('.')).toLowerCase()
 
-function applyFile (file) {
+  if (
+    (file.type && !allowedTypes.includes(file.type)) ||
+    !allowedExtensions.includes(extension)
+  ) {
+    photoError.value = 'Choose a PNG, JPG, JPEG or WEBP image.'
+    return
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    photoError.value = 'The image must be 10MB or smaller.'
+    return
+  }
+
+  photoError.value = ''
+  errorMsg.value = ''
+  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
   form.photo = file
   previewUrl.value = URL.createObjectURL(file)
 }
 
-function removePhoto () {
+function removePhoto() {
+  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
   form.photo = null
   previewUrl.value = null
+  photoError.value = ''
+  errorMsg.value = ''
   if (fileInput.value) fileInput.value.value = ''
 }
 
-function validate () {
+onBeforeUnmount(() => {
+  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
+})
+
+function validate() {
   errors.category = !form.category
   errors.building = !form.building
   errors.title = !form.title.trim()
   errors.description = !form.description.trim()
 
-  const isValid = !errors.category && !errors.building && !errors.title && !errors.description
+  const isValid =
+    !errors.category && !errors.building && !errors.title && !errors.description
 
   if (!isValid) {
     nextTick(() => {
@@ -455,43 +495,33 @@ function validate () {
   return isValid
 }
 
-function generateRef () {
+function generateRef() {
   return 'CC' + Date.now().toString().slice(-6)
 }
 
-function submitAnother () {
+function submitAnother() {
   submitted.value = false
+  removePhoto()
   Object.assign(form, {
     category: '',
     building: '',
     room: '',
     title: '',
     description: '',
-    priority: 'Medium',
-    photo: null,
+    priority: 'Medium'
   })
-  previewUrl.value = null
 }
 
-async function submitReport () {
-  console.log("SUBMIT REPORT CLICKED")
+async function submitReport() {
   if (!validate()) {
-    console.log("VALIDATION STATE", {
-      category: form.category,
-      building: form.building,
-      title: form.title,
-      description: form.description,
-      errors: {
-        category: errors.category,
-        building: errors.building,
-        title: errors.title,
-        description: errors.description
-      }
-    });
     return
   }
 
   errorMsg.value = ''
+  if (photoError.value) {
+    errorMsg.value = photoError.value
+    return
+  }
   submitting.value = true
 
   try {
@@ -503,14 +533,13 @@ async function submitReport () {
     issueData.append('description', form.description)
     issueData.append('priority', form.priority)
     if (form.photo) issueData.append('image', form.photo)
-    console.log("SENDING ISSUE", issueData)
     const data = await createIssue(issueData)
-    console.log("ISSUE CREATED", data)
 
     // Use backend issue ID as reference, fallback to generated ref
-    refNumber.value = data.issue?._id?.slice(-8)?.toUpperCase()
-      || data._id?.slice(-8)?.toUpperCase()
-      || generateRef()
+    refNumber.value =
+      data.issue?._id?.slice(-8)?.toUpperCase() ||
+      data._id?.slice(-8)?.toUpperCase() ||
+      generateRef()
     submitting.value = false
     submitted.value = true
     await nextTick()
@@ -519,19 +548,15 @@ async function submitReport () {
       block: 'center'
     })
   } catch (err) {
-    console.error("CREATE ISSUE ERROR", err)
     submitting.value = false
     errorMsg.value =
       err.response?.data?.message ||
-      err.response?.data?.error ||
       'Failed to submit report. Please try again.'
   }
 }
 </script>
 
-
 <style scoped>
-
 /* =====================================================
    BASE
 ===================================================== */
@@ -546,14 +571,13 @@ async function submitReport () {
     Inter,
     -apple-system,
     BlinkMacSystemFont,
-    "Segoe UI",
+    'Segoe UI',
     sans-serif;
 
   background: #eef2ff;
 
   overflow-x: hidden;
 }
-
 
 /* BACKGROUND ORBS */
 
@@ -575,7 +599,7 @@ async function submitReport () {
   height: 500px;
   top: -150px;
   right: -100px;
-  background: rgba(30, 64, 175, 0.10);
+  background: rgba(30, 64, 175, 0.1);
 }
 
 .orb-2 {
@@ -585,7 +609,6 @@ async function submitReport () {
   left: -100px;
   background: rgba(99, 102, 241, 0.08);
 }
-
 
 /* =====================================================
    WRAPPER
@@ -603,7 +626,6 @@ async function submitReport () {
 
   box-sizing: border-box;
 }
-
 
 /* BACK BUTTON */
 
@@ -639,7 +661,6 @@ async function submitReport () {
   background: #eef2ff;
   border-color: #a5b4fc;
 }
-
 
 /* =====================================================
    HEADER
@@ -702,7 +723,6 @@ async function submitReport () {
   line-height: 1.7;
 }
 
-
 /* =====================================================
    FORM
 ===================================================== */
@@ -724,7 +744,6 @@ async function submitReport () {
 
   margin-bottom: 16px;
 }
-
 
 /* SECTION LABEL */
 
@@ -768,7 +787,6 @@ async function submitReport () {
   color: #64748b;
   margin-top: 2px;
 }
-
 
 /* CATEGORY GRID */
 
@@ -823,7 +841,6 @@ async function submitReport () {
   align-items: center;
   justify-content: center;
 }
-
 
 /* FIELDS */
 
@@ -900,7 +917,7 @@ async function submitReport () {
 .input-wrap select:focus {
   border-color: #1e40af;
   background: white;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.10);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
 }
 
 .textarea-wrap textarea {
@@ -938,7 +955,7 @@ async function submitReport () {
 .textarea-wrap textarea:focus {
   border-color: #1e40af;
   background: white;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.10);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
 }
 
 .char-count {
@@ -958,7 +975,6 @@ async function submitReport () {
 
   font-weight: 600;
 }
-
 
 /* PRIORITY */
 
@@ -1006,7 +1022,6 @@ async function submitReport () {
   color: #1d4ed8;
 }
 
-
 /* UPLOAD */
 
 .upload-area {
@@ -1026,6 +1041,12 @@ async function submitReport () {
 .upload-area:hover {
   border-color: #1e40af;
   background: #eff6ff;
+}
+
+.photo-error {
+  margin-top: 7px;
+  color: #b91c1c;
+  font-size: 12px;
 }
 
 .upload-placeholder {
@@ -1075,6 +1096,25 @@ async function submitReport () {
   object-fit: cover;
 }
 
+.change-photo {
+  position: absolute;
+  right: 50px;
+  top: 10px;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(15, 23, 42, 0.68);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.change-photo:hover {
+  background: rgba(30, 64, 175, 0.9);
+}
+
 .remove-photo {
   position: absolute;
   top: 10px;
@@ -1103,7 +1143,6 @@ async function submitReport () {
 .remove-photo:hover {
   background: rgba(220, 38, 38, 0.85);
 }
-
 
 /* =====================================================
    FORM FOOTER
@@ -1182,9 +1221,10 @@ async function submitReport () {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
-
 
 /* =====================================================
    SUCCESS CARD
@@ -1300,12 +1340,13 @@ async function submitReport () {
   transform: translateY(-2px);
 }
 
-
 /* FADE TRANSITION */
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.4s, transform 0.4s;
+  transition:
+    opacity 0.4s,
+    transform 0.4s;
 }
 
 .fade-enter-from {
@@ -1313,13 +1354,11 @@ async function submitReport () {
   transform: translateY(20px);
 }
 
-
 /* =====================================================
    RESPONSIVE
 ===================================================== */
 
 @media (max-width: 650px) {
-
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1341,7 +1380,5 @@ async function submitReport () {
     width: 100%;
     justify-content: center;
   }
-
 }
-
 </style>

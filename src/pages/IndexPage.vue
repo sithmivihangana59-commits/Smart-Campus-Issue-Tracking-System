@@ -1,10 +1,8 @@
 <template>
   <q-page class="home-page">
-
     <!-- ================= NAVBAR ================= -->
     <header class="navbar">
       <div class="nav-container">
-
         <!-- LOGO -->
         <div class="brand" @click="scrollToTop">
           <div class="brand-icon">
@@ -24,30 +22,33 @@
             class="nav-link"
             :class="{ active: activeSection === 'home' }"
             @click.prevent="scrollToTop"
-          >Home</a>
+            >Home</a
+          >
           <a
             href="#how-it-works"
             class="nav-link"
             :class="{ active: activeSection === 'how-it-works' }"
             @click.prevent="scrollToSection('how-it-works')"
-          >How It Works</a>
+            >How It Works</a
+          >
           <a
             href="#features"
             class="nav-link"
             :class="{ active: activeSection === 'features' }"
             @click.prevent="scrollToSection('features')"
-          >Features</a>
+            >Features</a
+          >
           <a
             href="#about"
             class="nav-link"
             :class="{ active: activeSection === 'about' }"
             @click.prevent="scrollToSection('about')"
-          >About</a>
+            >About</a
+          >
         </nav>
 
         <!-- NAV ACTIONS -->
         <div class="nav-actions">
-
           <div v-if="currentUser" class="user-nav-chip">
             <q-icon name="person" size="16px" color="primary" />
             <span>{{ currentUser.name || 'Student' }}</span>
@@ -80,9 +81,7 @@
             class="mobile-menu-btn"
             @click="mobileMenuOpen = !mobileMenuOpen"
           />
-
         </div>
-
       </div>
 
       <!-- MOBILE NAV DRAWER -->
@@ -91,7 +90,7 @@
           href="#home"
           class="mobile-nav-item"
           :class="{ active: activeSection === 'home' }"
-          @click.prevent="scrollToTop(); mobileMenuOpen = false"
+          @click.prevent="closeMobileMenu(scrollToTop)"
         >
           <q-icon name="home" size="18px" />
           <span>Home</span>
@@ -100,7 +99,9 @@
           href="#how-it-works"
           class="mobile-nav-item"
           :class="{ active: activeSection === 'how-it-works' }"
-          @click.prevent="scrollToSection('how-it-works'); mobileMenuOpen = false"
+          @click.prevent="
+            closeMobileMenu(() => scrollToSection('how-it-works'))
+          "
         >
           <q-icon name="sync_alt" size="18px" />
           <span>How It Works</span>
@@ -109,7 +110,7 @@
           href="#features"
           class="mobile-nav-item"
           :class="{ active: activeSection === 'features' }"
-          @click.prevent="scrollToSection('features'); mobileMenuOpen = false"
+          @click.prevent="closeMobileMenu(() => scrollToSection('features'))"
         >
           <q-icon name="widgets" size="18px" />
           <span>Features</span>
@@ -118,7 +119,7 @@
           href="#about"
           class="mobile-nav-item"
           :class="{ active: activeSection === 'about' }"
-          @click.prevent="scrollToSection('about'); mobileMenuOpen = false"
+          @click.prevent="closeMobileMenu(() => scrollToSection('about'))"
         >
           <q-icon name="info" size="18px" />
           <span>About</span>
@@ -130,21 +131,17 @@
             label="Report an Issue"
             icon="add_circle"
             class="mobile-report-btn"
-            @click="reportIssue(); mobileMenuOpen = false"
+            @click="closeMobileMenu(reportIssue)"
           />
         </div>
       </div>
     </header>
 
-
     <!-- ================= HERO ================= -->
     <section id="home" class="hero-section">
-
       <div class="hero-container">
-
         <!-- HERO LEFT -->
         <div class="hero-content">
-
           <div class="hero-badge">
             <span class="badge-dot"></span>
             Smart Campus Issue Management
@@ -156,13 +153,11 @@
           </h1>
 
           <p class="hero-description">
-            Report campus issues, track their progress, and stay
-            connected with the people working to make your
-            university a better place.
+            Report campus issues, track their progress, and stay connected with
+            the people working to make your university a better place.
           </p>
 
           <div class="hero-buttons">
-
             <q-btn
               unelevated
               no-caps
@@ -180,14 +175,11 @@
               class="secondary-btn"
               @click="openTrackModal()"
             />
-
           </div>
 
           <!-- TRUST -->
           <div class="hero-trust">
-
             <div class="trust-avatars">
-
               <div class="avatar avatar-1">S</div>
               <div class="avatar avatar-2">A</div>
               <div class="avatar avatar-3">K</div>
@@ -195,53 +187,38 @@
               <div class="avatar avatar-4">
                 <q-icon name="add" size="15px" />
               </div>
-
             </div>
 
             <div class="trust-text">
               <strong>Built for campus communities</strong>
               <span>Students • Staff • Administration</span>
             </div>
-
           </div>
-
         </div>
-
 
         <!-- HERO RIGHT -->
         <div class="hero-visual">
-
           <div class="visual-glow"></div>
 
           <!-- DASHBOARD CARD -->
           <div class="dashboard-card">
-
             <!-- HEADER -->
             <div class="dashboard-header">
-
               <div>
-                <span class="small-label">
-                  CAMPUS OVERVIEW
-                </span>
+                <span class="small-label"> CAMPUS OVERVIEW </span>
 
-                <h3>
-                  Issue Management
-                </h3>
+                <h3> Issue Management </h3>
               </div>
 
               <div class="live-indicator">
                 <span></span>
                 Live
               </div>
-
             </div>
-
 
             <!-- MINI STATS -->
             <div class="mini-stats">
-
               <div class="mini-stat">
-
                 <div class="mini-icon blue">
                   <q-icon name="assignment" />
                 </div>
@@ -250,12 +227,9 @@
                   <strong>128</strong>
                   <span>Total Issues</span>
                 </div>
-
               </div>
 
-
               <div class="mini-stat">
-
                 <div class="mini-icon orange">
                   <q-icon name="pending_actions" />
                 </div>
@@ -264,15 +238,11 @@
                   <strong>24</strong>
                   <span>Pending</span>
                 </div>
-
               </div>
-
             </div>
-
 
             <!-- PROGRESS -->
             <div class="progress-section">
-
               <div class="progress-top">
                 <span>Resolution Progress</span>
                 <strong>78%</strong>
@@ -281,104 +251,62 @@
               <div class="progress-bar">
                 <div class="progress-value"></div>
               </div>
-
             </div>
-
 
             <!-- ISSUE LIST -->
             <div class="issue-list">
-
               <!-- ISSUE 01 -->
               <div class="issue-item">
-
                 <div class="issue-icon maintenance">
                   <q-icon name="build" />
                 </div>
 
                 <div class="issue-info">
+                  <strong> Laboratory Equipment </strong>
 
-                  <strong>
-                    Laboratory Equipment
-                  </strong>
-
-                  <span>
-                    Engineering Faculty
-                  </span>
-
+                  <span> Engineering Faculty </span>
                 </div>
 
-                <div class="status resolved">
-                  Resolved
-                </div>
-
+                <div class="status resolved"> Resolved </div>
               </div>
-
 
               <!-- ISSUE 02 -->
               <div class="issue-item">
-
                 <div class="issue-icon it">
                   <q-icon name="wifi" />
                 </div>
 
                 <div class="issue-info">
+                  <strong> Wi-Fi Connectivity </strong>
 
-                  <strong>
-                    Wi-Fi Connectivity
-                  </strong>
-
-                  <span>
-                    Main Library
-                  </span>
-
+                  <span> Main Library </span>
                 </div>
 
-                <div class="status progress">
-                  In Progress
-                </div>
-
+                <div class="status progress"> In Progress </div>
               </div>
-
 
               <!-- ISSUE 03 -->
               <div class="issue-item">
-
                 <div class="issue-icon facility">
                   <q-icon name="lightbulb" />
                 </div>
 
                 <div class="issue-info">
+                  <strong> Classroom Lighting </strong>
 
-                  <strong>
-                    Classroom Lighting
-                  </strong>
-
-                  <span>
-                    Science Faculty
-                  </span>
-
+                  <span> Science Faculty </span>
                 </div>
 
-                <div class="status pending">
-                  Pending
-                </div>
-
+                <div class="status pending"> Pending </div>
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
 
       <!-- HERO BOTTOM FEATURES -->
       <div class="hero-bottom">
-
         <div class="bottom-item">
-
           <div class="bottom-icon">
             <q-icon name="verified_user" />
           </div>
@@ -387,12 +315,9 @@
             <strong>Transparent</strong>
             <span>Track every report</span>
           </div>
-
         </div>
 
-
         <div class="bottom-item">
-
           <div class="bottom-icon">
             <q-icon name="bolt" />
           </div>
@@ -401,12 +326,9 @@
             <strong>Efficient</strong>
             <span>Faster issue resolution</span>
           </div>
-
         </div>
 
-
         <div class="bottom-item">
-
           <div class="bottom-icon">
             <q-icon name="groups" />
           </div>
@@ -415,196 +337,138 @@
             <strong>Connected</strong>
             <span>One campus community</span>
           </div>
-
         </div>
-
       </div>
-
     </section>
 
-
     <!-- ================= HOW IT WORKS ================= -->
-    <section
-      id="how-it-works"
-      class="section how-section"
-    >
-
+    <section id="how-it-works" class="section how-section">
       <div class="section-heading">
+        <div class="section-tag"> SIMPLE PROCESS </div>
 
-        <div class="section-tag">
-          SIMPLE PROCESS
-        </div>
-
-        <h2>
-          From problem to solution.
-        </h2>
+        <h2> From problem to solution. </h2>
 
         <p>
-          A simple and transparent way to report campus
-          problems and keep track of what happens next.
+          A simple and transparent way to report campus problems and keep track
+          of what happens next.
         </p>
-
       </div>
 
-
       <div class="steps-container">
-
         <!-- STEP 01 -->
         <div class="step-card clickable-card" @click="reportIssue">
-
-          <div class="step-number">
-            01
-          </div>
+          <div class="step-number"> 01 </div>
 
           <div class="step-icon">
             <q-icon name="edit_note" />
           </div>
 
-          <h3>
-            Report Issue
-          </h3>
+          <h3> Report Issue </h3>
 
           <p>
-            Submit an issue with location, category, priority,
-            and description in just a few clicks.
+            Submit an issue with location, category, priority, and description
+            in just a few clicks.
           </p>
 
           <span class="step-link">
             Easy reporting
             <q-icon name="arrow_forward" />
           </span>
-
         </div>
-
 
         <!-- STEP 02 -->
         <div class="step-card clickable-card" @click="openRoleModal('Staff')">
-
-          <div class="step-number">
-            02
-          </div>
+          <div class="step-number"> 02 </div>
 
           <div class="step-icon">
             <q-icon name="assignment_ind" />
           </div>
 
-          <h3>
-            Review & Assign
-          </h3>
+          <h3> Review & Assign </h3>
 
           <p>
-            Campus administrators review the report and assign
-            it to dedicated maintenance or IT staff.
+            Campus administrators review the report and assign it to dedicated
+            maintenance or IT staff.
           </p>
 
           <span class="step-link">
             Staff dispatch
             <q-icon name="arrow_forward" />
           </span>
-
         </div>
-
 
         <!-- STEP 03 -->
         <div class="step-card clickable-card" @click="openTrackModal()">
-
-          <div class="step-number">
-            03
-          </div>
+          <div class="step-number"> 03 </div>
 
           <div class="step-icon">
             <q-icon name="visibility" />
           </div>
 
-          <h3>
-            Track Progress
-          </h3>
+          <h3> Track Progress </h3>
 
           <p>
-            Follow real-time status updates, remarks, and
-            timeline progression on your dashboard.
+            Follow real-time status updates, remarks, and timeline progression
+            on your dashboard.
           </p>
 
           <span class="step-link">
             Live updates
             <q-icon name="arrow_forward" />
           </span>
-
         </div>
 
-
         <!-- STEP 04 -->
-        <div class="step-card clickable-card" @click="scrollToSection('features')">
-
-          <div class="step-number">
-            04
-          </div>
+        <div
+          class="step-card clickable-card"
+          @click="scrollToSection('features')"
+        >
+          <div class="step-number"> 04 </div>
 
           <div class="step-icon">
             <q-icon name="task_alt" />
           </div>
 
-          <h3>
-            Issue Resolved
-          </h3>
+          <h3> Issue Resolved </h3>
 
           <p>
-            Campus teams resolve the problem and mark the ticket
-            complete, keeping university spaces in top shape.
+            Campus teams resolve the problem and mark the ticket complete,
+            keeping university spaces in top shape.
           </p>
 
           <span class="step-link">
             Better campus
             <q-icon name="check" />
           </span>
-
         </div>
-
       </div>
-
     </section>
 
-
     <!-- ================= FEATURES ================= -->
-    <section
-      id="features"
-      class="section features-section"
-    >
-
+    <section id="features" class="section features-section">
       <div class="section-heading">
+        <div class="section-tag"> ONE PLATFORM </div>
 
-        <div class="section-tag">
-          ONE PLATFORM
-        </div>
-
-        <h2>
-          Everything your campus needs.
-        </h2>
+        <h2> Everything your campus needs. </h2>
 
         <p>
-          Designed to connect students, staff and administrators
-          through one simple issue management platform.
+          Designed to connect students, staff and administrators through one
+          simple issue management platform.
         </p>
-
       </div>
 
-
       <div class="feature-grid">
-
         <!-- FEATURE 01 -->
         <div class="feature-card feature-blue" @click="reportIssue">
-
           <div class="feature-icon blue-bg">
             <q-icon name="report_problem" />
           </div>
 
-          <h3>
-            Report Campus Issues
-          </h3>
+          <h3> Report Campus Issues </h3>
 
           <p>
-            Report maintenance, IT, facility and electrical
-            problems quickly with building and room details.
+            Report maintenance, IT, facility and electrical problems quickly
+            with building and room details.
           </p>
 
           <div class="feature-action">
@@ -613,24 +477,19 @@
               <q-icon name="arrow_forward" />
             </span>
           </div>
-
         </div>
-
 
         <!-- FEATURE 02 -->
         <div class="feature-card feature-green" @click="openTrackModal()">
-
           <div class="feature-icon green-bg">
             <q-icon name="timeline" />
           </div>
 
-          <h3>
-            Track Issue Status
-          </h3>
+          <h3> Track Issue Status </h3>
 
           <p>
-            Interactive multi-step status tracker showing progression
-            from submission to assignment and resolution.
+            Interactive multi-step status tracker showing progression from
+            submission to assignment and resolution.
           </p>
 
           <div class="feature-action">
@@ -639,24 +498,22 @@
               <q-icon name="arrow_forward" />
             </span>
           </div>
-
         </div>
 
-
         <!-- FEATURE 03 -->
-        <div class="feature-card feature-purple" @click="openNotificationsModal()">
-
+        <div
+          class="feature-card feature-purple"
+          @click="openNotificationsModal()"
+        >
           <div class="feature-icon purple-bg">
             <q-icon name="notifications_active" />
           </div>
 
-          <h3>
-            Real-time Updates
-          </h3>
+          <h3> Real-time Updates </h3>
 
           <p>
-            Stay informed with real-time status changes, timestamps,
-            and comments directly from handling staff.
+            Stay informed with real-time status changes, timestamps, and
+            comments directly from handling staff.
           </p>
 
           <div class="feature-action">
@@ -665,24 +522,22 @@
               <q-icon name="arrow_forward" />
             </span>
           </div>
-
         </div>
 
-
         <!-- FEATURE 04 -->
-        <div class="feature-card feature-orange" @click="openRoleModal('Staff')">
-
+        <div
+          class="feature-card feature-orange"
+          @click="openRoleModal('Staff')"
+        >
           <div class="feature-icon orange-bg">
             <q-icon name="badge" />
           </div>
 
-          <h3>
-            Staff Assignment
-          </h3>
+          <h3> Staff Assignment </h3>
 
           <p>
-            Smart dispatching system for campus administrators
-            to allocate issues to specialized technicians.
+            Smart dispatching system for campus administrators to allocate
+            issues to specialized technicians.
           </p>
 
           <div class="feature-action">
@@ -691,24 +546,19 @@
               <q-icon name="arrow_forward" />
             </span>
           </div>
-
         </div>
-
 
         <!-- FEATURE 05 -->
         <div class="feature-card feature-cyan" @click="openTrackModal()">
-
           <div class="feature-icon cyan-bg">
             <q-icon name="history" />
           </div>
 
-          <h3>
-            Issue History & Logs
-          </h3>
+          <h3> Issue History & Logs </h3>
 
           <p>
-            Complete chronological archive of all your reported
-            issues, previous statuses, and resolution logs.
+            Complete chronological archive of all your reported issues, previous
+            statuses, and resolution logs.
           </p>
 
           <div class="feature-action">
@@ -717,24 +567,22 @@
               <q-icon name="arrow_forward" />
             </span>
           </div>
-
         </div>
 
-
         <!-- FEATURE 06 -->
-        <div class="feature-card feature-indigo" @click="openRoleModal('Admin')">
-
+        <div
+          class="feature-card feature-indigo"
+          @click="openRoleModal('Admin')"
+        >
           <div class="feature-icon indigo-bg">
             <q-icon name="admin_panel_settings" />
           </div>
 
-          <h3>
-            Secure Role Access
-          </h3>
+          <h3> Secure Role Access </h3>
 
           <p>
-            Tailored workflows for Students, Staff, and Admins
-            protected by secure JWT token authentication.
+            Tailored workflows for Students, Staff, and Admins protected by
+            secure JWT token authentication.
           </p>
 
           <div class="feature-action">
@@ -743,48 +591,35 @@
               <q-icon name="arrow_forward" />
             </span>
           </div>
-
         </div>
-
       </div>
-
     </section>
 
-
     <!-- ================= ABOUT ================= -->
-    <section
-      id="about"
-      class="section about-section"
-    >
-
+    <section id="about" class="section about-section">
       <div class="section-heading">
+        <div class="section-tag"> ABOUT CAMPUSCARE </div>
 
-        <div class="section-tag">
-          ABOUT CAMPUSCARE
-        </div>
-
-        <h2>
-          Smart Campus Issue Management
-        </h2>
+        <h2> Smart Campus Issue Management </h2>
 
         <p>
           CampusCare is a Smart Campus Issue Management System designed to help
-          university students and staff report, manage, track, and resolve campus issues
-          efficiently, bridging communication across the entire campus community.
+          university students and staff report, manage, track, and resolve
+          campus issues efficiently, bridging communication across the entire
+          campus community.
         </p>
-
       </div>
 
       <!-- ABOUT HIGHLIGHT PILLARS -->
       <div class="about-grid">
-
         <div class="about-card">
           <div class="about-card-icon about-blue">
             <q-icon name="school" />
           </div>
           <h3>Student Empowerment</h3>
           <p>
-            Empowers students to easily report classroom, hostel, lab, and facility issues with transparent progress tracking.
+            Empowers students to easily report classroom, hostel, lab, and
+            facility issues with transparent progress tracking.
           </p>
         </div>
 
@@ -794,7 +629,8 @@
           </div>
           <h3>Staff Efficiency</h3>
           <p>
-            Equips maintenance and technical staff with centralized issue queues, role assignment, and direct progress remarks.
+            Equips maintenance and technical staff with centralized issue
+            queues, role assignment, and direct progress remarks.
           </p>
         </div>
 
@@ -804,26 +640,21 @@
           </div>
           <h3>Campus Excellence</h3>
           <p>
-            Fosters a cleaner, safer, and smarter learning environment through speed, modern tech, and complete accountability.
+            Fosters a cleaner, safer, and smarter learning environment through
+            speed, modern tech, and complete accountability.
           </p>
         </div>
-
       </div>
 
       <!-- CTA CONTAINER -->
       <div class="cta-container">
-
         <div class="cta-content">
-
           <div class="cta-icon">
             <q-icon name="school" />
           </div>
 
           <div>
-
-            <span class="cta-label">
-              SMART CAMPUS INITIATIVE
-            </span>
+            <span class="cta-label"> SMART CAMPUS INITIATIVE </span>
 
             <h2>
               Your campus.
@@ -831,14 +662,11 @@
             </h2>
 
             <p>
-              Help create a cleaner, safer and more connected
-              university by reporting issues when you see them.
+              Help create a cleaner, safer and more connected university by
+              reporting issues when you see them.
             </p>
-
           </div>
-
         </div>
-
 
         <q-btn
           unelevated
@@ -848,79 +676,52 @@
           class="cta-btn"
           @click="reportIssue"
         />
-
       </div>
-
     </section>
-
 
     <!-- ================= FOOTER ================= -->
     <footer class="footer">
-
       <div class="footer-container">
-
         <!-- FOOTER BRAND -->
         <div class="footer-brand">
-
           <div class="brand">
-
             <div class="brand-icon">
-              <q-icon
-                name="school"
-                size="20px"
-              />
+              <q-icon name="school" size="20px" />
             </div>
 
             <div class="brand-text">
+              <div class="brand-name"> CAMPUSCARE </div>
 
-              <div class="brand-name">
-                CAMPUSCARE
-              </div>
-
-              <div class="brand-subtitle">
-                SMART CAMPUS
-              </div>
-
+              <div class="brand-subtitle"> SMART CAMPUS </div>
             </div>
-
           </div>
 
-          <p>
-            A smarter way to build a better campus.
-          </p>
-
+          <p> A smarter way to build a better campus. </p>
         </div>
-
 
         <!-- FOOTER LINKS -->
         <div class="footer-links">
-
           <div class="footer-column">
-
-            <h4>
-              Platform
-            </h4>
+            <h4> Platform </h4>
 
             <a href="#features" @click.prevent="scrollToSection('features')">
               Features
             </a>
 
-            <a href="#how-it-works" @click.prevent="scrollToSection('how-it-works')">
+            <a
+              href="#how-it-works"
+              @click.prevent="scrollToSection('how-it-works')"
+            >
               How It Works
             </a>
 
             <a href="#about" @click.prevent="scrollToSection('about')">
               About
             </a>
-
           </div>
 
-
           <div class="footer-column">
-
-            <h4>
-              Support
-            </h4>
+            <h4> Support </h4>
 
             <a href="#" @click.prevent="openHelpModal('Help Center')">
               Help Center
@@ -933,55 +734,35 @@
             <a href="#" @click.prevent="openHelpModal('Privacy Policy')">
               Privacy
             </a>
-
           </div>
 
-
           <div class="footer-column">
-
-            <h4>
-              Campus
-            </h4>
+            <h4> Campus </h4>
 
             <a href="#" @click.prevent="openRoleModal('Students')">
               Students
             </a>
 
-            <a href="#" @click.prevent="openRoleModal('Staff')">
-              Staff
-            </a>
+            <a href="#" @click.prevent="openRoleModal('Staff')"> Staff </a>
 
             <a href="#" @click.prevent="openRoleModal('Administration')">
               Administration
             </a>
-
           </div>
-
         </div>
-
       </div>
-
 
       <!-- FOOTER BOTTOM -->
       <div class="footer-bottom">
+        <span> © 2026 CampusCare. Smart Campus Issue Tracking System. </span>
 
-        <span>
-          © 2026 CampusCare.
-          Smart Campus Issue Tracking System.
-        </span>
-
-        <span>
-          Built for a better campus.
-        </span>
-
+        <span> Built for a better campus. </span>
       </div>
-
     </footer>
 
     <!-- ================= TRACK ISSUE MODAL ================= -->
     <q-dialog v-model="trackModalOpen" backdrop-filter="blur(12px)">
       <div class="track-modal-card">
-
         <!-- HEADER -->
         <div class="track-modal-header">
           <div class="header-left">
@@ -991,7 +772,14 @@
             </div>
             <h3>Track Your Campus Report</h3>
           </div>
-          <q-btn flat round dense icon="close" class="modal-close" v-close-popup />
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            class="modal-close"
+            v-close-popup
+          />
         </div>
 
         <!-- SEARCH BAR -->
@@ -1004,25 +792,50 @@
               placeholder="Enter Reference ID (e.g. CC128492)"
               @keyup.enter="searchIssue"
             />
-            <button class="search-btn" @click="searchIssue">
-              Track
-            </button>
+            <button class="search-btn" @click="searchIssue"> Track </button>
           </div>
 
           <!-- QUICK CHIPS / MY ISSUES -->
           <div class="sample-chips">
             <span class="chips-label">My Reported Issues:</span>
 
-            <div v-if="loadingIssues" style="font-size: 12px; color: #94a3b8; padding: 4px 0; display: flex; align-items: center; gap: 6px;">
+            <div
+              v-if="loadingIssues"
+              style="
+                font-size: 12px;
+                color: #94a3b8;
+                padding: 4px 0;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+              "
+            >
               <q-spinner size="14px" color="primary" /> Loading issues...
             </div>
 
-            <div v-else-if="issuesError" style="font-size: 12px; color: #ef4444; padding: 4px 0;">
+            <div
+              v-else-if="issuesError"
+              style="font-size: 12px; color: #ef4444; padding: 4px 0"
+            >
               {{ issuesError }}
             </div>
 
-            <div v-else-if="myIssues.length === 0" style="font-size: 12px; color: #64748b; padding: 4px 0;">
-              No reported issues found. <a href="#" style="color: #2563eb; font-weight: 600; text-decoration: underline;" @click.prevent="reportIssue" v-close-popup>Report an issue now</a>
+            <div
+              v-else-if="myIssues.length === 0"
+              style="font-size: 12px; color: #64748b; padding: 4px 0"
+            >
+              No reported issues found.
+              <a
+                href="#"
+                style="
+                  color: #2563eb;
+                  font-weight: 600;
+                  text-decoration: underline;
+                "
+                @click.prevent="reportIssue"
+                v-close-popup
+                >Report an issue now</a
+              >
             </div>
 
             <template v-else>
@@ -1030,7 +843,9 @@
                 v-for="item in myIssues"
                 :key="item.id"
                 class="sample-chip"
-                :class="{ active: currentTrackIssue && currentTrackIssue.id === item.id }"
+                :class="{
+                  active: currentTrackIssue && currentTrackIssue.id === item.id
+                }"
                 @click="selectSampleIssue(item)"
               >
                 #{{ item.id }}
@@ -1041,7 +856,6 @@
 
         <!-- ISSUE STATUS CARD -->
         <div v-if="currentTrackIssue" class="track-details-box">
-
           <div class="details-top">
             <div>
               <div class="issue-ref-tag">
@@ -1049,26 +863,67 @@
               </div>
               <h4 class="track-issue-title">{{ currentTrackIssue.title }}</h4>
               <div class="track-issue-meta">
-                <span><q-icon name="location_on" size="14px" /> {{ currentTrackIssue.location }}</span>
-                <span><q-icon name="schedule" size="14px" /> {{ currentTrackIssue.date }}</span>
-                <span v-if="currentTrackIssue.category"><q-icon name="folder" size="14px" /> {{ currentTrackIssue.category }}</span>
-                <span v-if="currentTrackIssue.priority"><q-icon name="flag" size="14px" /> {{ currentTrackIssue.priority }} Priority</span>
+                <span
+                  ><q-icon name="location_on" size="14px" />
+                  {{ currentTrackIssue.location }}</span
+                >
+                <span
+                  ><q-icon name="schedule" size="14px" />
+                  {{ currentTrackIssue.date }}</span
+                >
+                <span v-if="currentTrackIssue.category"
+                  ><q-icon name="folder" size="14px" />
+                  {{ currentTrackIssue.category }}</span
+                >
+                <span v-if="currentTrackIssue.priority"
+                  ><q-icon name="flag" size="14px" />
+                  {{ currentTrackIssue.priority }} Priority</span
+                >
               </div>
             </div>
 
-            <div class="track-status-pill" :class="currentTrackIssue.status.toLowerCase().replace(' ', '-')">
+            <div
+              class="track-status-pill"
+              :class="currentTrackIssue.status.toLowerCase().replace(' ', '-')"
+            >
               <span class="status-dot"></span>
               {{ currentTrackIssue.status }}
             </div>
           </div>
 
+          <div v-if="currentTrackIssue.imageUrl" class="track-evidence">
+            <div class="evidence-label">Photo Evidence</div>
+            <a
+              :href="currentTrackIssue.imageUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                :src="currentTrackIssue.imageUrl"
+                alt="Issue photo evidence"
+              />
+              <span>Open photo</span>
+            </a>
+          </div>
+
           <!-- TIMELINE STEPS / STAFF UPDATES -->
           <div class="track-timeline">
-            <div v-if="loadingTrackUpdates" style="font-size: 13px; color: #94a3b8; padding: 12px 0; text-align: center;">
-              <q-spinner size="18px" color="primary" class="q-mr-xs" /> Loading updates...
+            <div
+              v-if="loadingTrackUpdates"
+              style="
+                font-size: 13px;
+                color: #94a3b8;
+                padding: 12px 0;
+                text-align: center;
+              "
+            >
+              <q-spinner size="18px" color="primary" class="q-mr-xs" /> Loading
+              updates...
             </div>
 
-            <template v-else-if="currentTrackUpdates && currentTrackUpdates.length > 0">
+            <template
+              v-else-if="currentTrackUpdates && currentTrackUpdates.length > 0"
+            >
               <div
                 v-for="(up, idx) in currentTrackUpdates"
                 :key="up._id || idx"
@@ -1080,10 +935,15 @@
                 <div class="node-content">
                   <div class="node-title-row">
                     <strong>{{ up.status }}</strong>
-                    <span class="node-time">{{ formatDate(up.createdAt) }}</span>
+                    <span class="node-time">{{
+                      formatDate(up.createdAt)
+                    }}</span>
                   </div>
                   <p>{{ up.message }}</p>
-                  <div v-if="up.updatedBy?.name" style="font-size: 11px; color: #64748b; margin-top: 4px;">
+                  <div
+                    v-if="up.updatedBy?.name"
+                    style="font-size: 11px; color: #64748b; margin-top: 4px"
+                  >
                     <q-icon name="person" size="12px" /> {{ up.updatedBy.name }}
                   </div>
                 </div>
@@ -1095,7 +955,11 @@
                 v-for="(st, idx) in currentTrackIssue.steps"
                 :key="idx"
                 class="timeline-node"
-                :class="{ completed: st.done, current: st.current, pending: !st.done && !st.current }"
+                :class="{
+                  completed: st.done,
+                  current: st.current,
+                  pending: !st.done && !st.current
+                }"
               >
                 <div class="node-marker">
                   <q-icon v-if="st.done" name="check" size="13px" />
@@ -1111,7 +975,15 @@
                 </div>
               </div>
 
-              <div style="font-size: 12px; color: #64748b; text-align: center; margin-top: 12px; font-style: italic;">
+              <div
+                style="
+                  font-size: 12px;
+                  color: #64748b;
+                  text-align: center;
+                  margin-top: 12px;
+                  font-style: italic;
+                "
+              >
                 No staff updates yet.
               </div>
             </template>
@@ -1136,17 +1008,13 @@
               v-close-popup
             />
           </div>
-
         </div>
-
       </div>
     </q-dialog>
-
 
     <!-- ================= INFO / SUPPORT / UPDATES MODAL ================= -->
     <q-dialog v-model="infoModalOpen" backdrop-filter="blur(12px)">
       <div class="info-modal-card">
-
         <div class="track-modal-header">
           <div class="header-left">
             <div class="modal-badge">
@@ -1155,7 +1023,14 @@
             </div>
             <h3>{{ infoModalTitle }}</h3>
           </div>
-          <q-btn flat round dense icon="close" class="modal-close" v-close-popup />
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            class="modal-close"
+            v-close-popup
+          />
         </div>
 
         <div v-if="infoModalType === 'support'" class="info-modal-body">
@@ -1192,12 +1067,18 @@
           </div>
         </div>
 
-        <div v-else-if="infoModalType === 'notifications'" class="info-modal-body">
+        <div
+          v-else-if="infoModalType === 'notifications'"
+          class="info-modal-body"
+        >
           <div class="alert-item live-alert">
             <div class="alert-indicator"></div>
             <div>
               <strong>Library Wi-Fi Maintenance</strong>
-              <p>Technician team dispatched to Block A &amp; Library for access point upgrade.</p>
+              <p
+                >Technician team dispatched to Block A &amp; Library for access
+                point upgrade.</p
+              >
               <span class="alert-time">10 mins ago</span>
             </div>
           </div>
@@ -1206,7 +1087,10 @@
             <div class="alert-indicator"></div>
             <div>
               <strong>Engineering Faculty Power Restore</strong>
-              <p>Transformer maintenance completed; power fully restored to Labs.</p>
+              <p
+                >Transformer maintenance completed; power fully restored to
+                Labs.</p
+              >
               <span class="alert-time">2 hours ago</span>
             </div>
           </div>
@@ -1215,7 +1099,10 @@
             <div class="alert-indicator"></div>
             <div>
               <strong>Scheduled Campus Cleaning</strong>
-              <p>All faculty lecture halls scheduled for deep sanitization this Saturday.</p>
+              <p
+                >All faculty lecture halls scheduled for deep sanitization this
+                Saturday.</p
+              >
               <span class="alert-time">Yesterday</span>
             </div>
           </div>
@@ -1223,16 +1110,26 @@
 
         <div v-else class="info-modal-body">
           <p class="role-desc">
-            CampusCare connects students, staff, and administration into one unified issue management ecosystem.
+            CampusCare connects students, staff, and administration into one
+            unified issue management ecosystem.
           </p>
           <ul class="role-list">
-            <li><q-icon name="check_circle" /> Submit immediate reports with location &amp; photo evidence</li>
-            <li><q-icon name="check_circle" /> Monitor real-time resolution stages with live SMS &amp; web tracking</li>
-            <li><q-icon name="check_circle" /> Verify and provide feedback once issues are marked as resolved</li>
+            <li
+              ><q-icon name="check_circle" /> Submit immediate reports with
+              location &amp; photo evidence</li
+            >
+            <li
+              ><q-icon name="check_circle" /> Monitor real-time resolution
+              stages with live SMS &amp; web tracking</li
+            >
+            <li
+              ><q-icon name="check_circle" /> Verify and provide feedback once
+              issues are marked as resolved</li
+            >
           </ul>
         </div>
 
-        <div class="track-modal-actions" style="margin-top: 24px;">
+        <div class="track-modal-actions" style="margin-top: 24px">
           <q-btn
             unelevated
             no-caps
@@ -1250,18 +1147,19 @@
             v-close-popup
           />
         </div>
-
       </div>
     </q-dialog>
-
   </q-page>
 </template>
-
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getMyIssues, getIssueUpdates } from '@/services/issueService'
+import {
+  getIssueImageUrl,
+  getMyIssues,
+  getIssueUpdates
+} from '@/services/issueService'
 
 const router = useRouter()
 
@@ -1298,7 +1196,7 @@ async function loadTrackUpdates(mongoId) {
   loadingTrackUpdates.value = true
   try {
     const data = await getIssueUpdates(mongoId)
-    currentTrackUpdates.value = Array.isArray(data) ? data : (data.updates || [])
+    currentTrackUpdates.value = Array.isArray(data) ? data : data.updates || []
   } catch {
     currentTrackUpdates.value = []
   } finally {
@@ -1328,14 +1226,28 @@ function buildSteps(status, dateStr) {
     },
     {
       label: isRejected ? 'Rejected' : 'In Progress',
-      desc: isRejected ? 'Report reviewed and rejected' : (isInProgress ? 'Technician assigned & working' : (isResolved ? 'Work completed' : 'Pending action')),
-      time: isInProgress ? 'In Progress' : (isResolved || isRejected ? 'Done' : 'Pending'),
+      desc: isRejected
+        ? 'Report reviewed and rejected'
+        : isInProgress
+          ? 'Technician assigned & working'
+          : isResolved
+            ? 'Work completed'
+            : 'Pending action',
+      time: isInProgress
+        ? 'In Progress'
+        : isResolved || isRejected
+          ? 'Done'
+          : 'Pending',
       current: isInProgress || isRejected,
       done: isResolved || isRejected
     },
     {
       label: isRejected ? 'Case Closed' : 'Resolved & Closed',
-      desc: isResolved ? 'Issue verified and resolved' : (isRejected ? 'Issue marked as rejected' : 'Final resolution pending'),
+      desc: isResolved
+        ? 'Issue verified and resolved'
+        : isRejected
+          ? 'Issue marked as rejected'
+          : 'Final resolution pending',
       time: isResolved || isRejected ? 'Completed' : 'Pending',
       done: isResolved || isRejected,
       current: false
@@ -1354,7 +1266,9 @@ function mapIssue(raw) {
       })
     : 'Recently'
 
-  const refId = raw._id ? raw._id.slice(-8).toUpperCase() : 'CC' + Math.floor(100000 + Math.random() * 900000)
+  const refId = raw._id
+    ? raw._id.slice(-8).toUpperCase()
+    : 'CC' + Math.floor(100000 + Math.random() * 900000)
 
   return {
     id: refId,
@@ -1368,6 +1282,7 @@ function mapIssue(raw) {
     status: raw.status || 'Pending',
     date: formattedDate,
     description: raw.description || '',
+    imageUrl: getIssueImageUrl(raw.image),
     steps: buildSteps(raw.status || 'Pending', formattedDate)
   }
 }
@@ -1377,10 +1292,13 @@ async function fetchUserIssues() {
   issuesError.value = ''
   try {
     const data = await getMyIssues()
-    const rawList = Array.isArray(data) ? data : (data.issues || [])
+    const rawList = Array.isArray(data) ? data : data.issues || []
     myIssues.value = rawList.map(mapIssue)
     if (myIssues.value.length > 0) {
-      if (!currentTrackIssue.value || !myIssues.value.some(i => i.id === currentTrackIssue.value.id)) {
+      if (
+        !currentTrackIssue.value ||
+        !myIssues.value.some(i => i.id === currentTrackIssue.value.id)
+      ) {
         currentTrackIssue.value = myIssues.value[0]
         searchRef.value = myIssues.value[0].id
         if (myIssues.value[0].mongoId) {
@@ -1392,7 +1310,10 @@ async function fetchUserIssues() {
       searchRef.value = ''
     }
   } catch (err) {
-    issuesError.value = err.response?.data?.message || err.response?.data?.error || 'Failed to load your issues.'
+    issuesError.value =
+      err.response?.data?.message ||
+      err.response?.data?.error ||
+      'Failed to load your issues.'
   } finally {
     loadingIssues.value = false
   }
@@ -1400,7 +1321,7 @@ async function fetchUserIssues() {
 
 const currentUser = ref(null)
 
-function handleScroll () {
+function handleScroll() {
   const scrollY = window.scrollY
   const aboutEl = document.getElementById('about')
   const featEl = document.getElementById('features')
@@ -1435,7 +1356,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
-function openTrackModal (refId) {
+function openTrackModal(refId) {
   trackModalOpen.value = true
   fetchUserIssues()
   if (refId) {
@@ -1444,7 +1365,7 @@ function openTrackModal (refId) {
   }
 }
 
-function selectSampleIssue (issue) {
+function selectSampleIssue(issue) {
   currentTrackIssue.value = issue
   searchRef.value = issue.id
   if (issue.mongoId) {
@@ -1454,13 +1375,14 @@ function selectSampleIssue (issue) {
   }
 }
 
-function searchIssue () {
+function searchIssue() {
   const query = searchRef.value.trim().toUpperCase().replace('#', '')
   if (!query) return
 
-  const found = myIssues.value.find(i =>
-    i.id.toUpperCase() === query ||
-    (i.mongoId && i.mongoId.toUpperCase().endsWith(query))
+  const found = myIssues.value.find(
+    i =>
+      i.id.toUpperCase() === query ||
+      (i.mongoId && i.mongoId.toUpperCase().endsWith(query))
   )
 
   if (found) {
@@ -1486,30 +1408,31 @@ const infoModalOpen = ref(false)
 const infoModalTitle = ref('')
 const infoModalType = ref('')
 
-function openHelpModal (type) {
+function openHelpModal(type) {
   infoModalTitle.value = type
   infoModalType.value = 'support'
   infoModalOpen.value = true
 }
 
-function openRoleModal (role) {
+function openRoleModal(role) {
   infoModalTitle.value = `${role} Portal & Guide`
   infoModalType.value = 'role'
   infoModalOpen.value = true
 }
 
-function openNotificationsModal () {
+function openNotificationsModal() {
   infoModalTitle.value = 'Campus Alerts & Real-time Updates'
   infoModalType.value = 'notifications'
   infoModalOpen.value = true
 }
 
-function scrollToSection (id) {
+function scrollToSection(id) {
   activeSection.value = id
   const el = document.getElementById(id)
   if (el) {
     const navbarHeight = 72
-    const targetY = el.getBoundingClientRect().top + window.pageYOffset - navbarHeight
+    const targetY =
+      el.getBoundingClientRect().top + window.pageYOffset - navbarHeight
     window.scrollTo({
       top: Math.max(0, targetY),
       behavior: 'smooth'
@@ -1517,7 +1440,7 @@ function scrollToSection (id) {
   }
 }
 
-function scrollToTop () {
+function scrollToTop() {
   activeSection.value = 'home'
   window.scrollTo({
     top: 0,
@@ -1525,11 +1448,16 @@ function scrollToTop () {
   })
 }
 
-function reportIssue () {
+function closeMobileMenu(action) {
+  action()
+  mobileMenuOpen.value = false
+}
+
+function reportIssue() {
   router.push('/report-issue')
 }
 
-function handleLogin () {
+function handleLogin() {
   if (currentUser.value) {
     signOut()
   } else {
@@ -1537,7 +1465,7 @@ function handleLogin () {
   }
 }
 
-function signOut () {
+function signOut() {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
   currentUser.value = null
@@ -1545,9 +1473,7 @@ function signOut () {
 }
 </script>
 
-
 <style scoped>
-
 /* =====================================================
    BASE
 ===================================================== */
@@ -1564,12 +1490,11 @@ function signOut () {
     Inter,
     -apple-system,
     BlinkMacSystemFont,
-    "Segoe UI",
+    'Segoe UI',
     sans-serif;
 
   overflow-x: hidden;
 }
-
 
 /* =====================================================
    NAVBAR
@@ -1591,7 +1516,6 @@ function signOut () {
   border-bottom: 1px solid #e8edf3;
 }
 
-
 .nav-container {
   width: 100%;
   max-width: 1240px;
@@ -1611,7 +1535,6 @@ function signOut () {
   justify-content: space-between;
 }
 
-
 /* BRAND */
 
 .brand {
@@ -1623,7 +1546,6 @@ function signOut () {
 
   cursor: pointer;
 }
-
 
 .brand-icon {
   width: 42px;
@@ -1643,10 +1565,8 @@ function signOut () {
 
   color: white;
 
-  box-shadow:
-    0 8px 20px rgba(30, 64, 175, 0.30);
+  box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3);
 }
-
 
 .brand-name {
   font-size: 15px;
@@ -1657,7 +1577,6 @@ function signOut () {
 
   color: #0f172a;
 }
-
 
 .brand-subtitle {
   margin-top: 2px;
@@ -1671,7 +1590,6 @@ function signOut () {
   color: #64748b;
 }
 
-
 /* NAV */
 
 .desktop-nav {
@@ -1681,7 +1599,6 @@ function signOut () {
 
   gap: 34px;
 }
-
 
 .nav-link {
   position: relative;
@@ -1697,15 +1614,13 @@ function signOut () {
   transition: 0.25s;
 }
 
-
 .nav-link:hover,
 .nav-link.active {
   color: #1e40af;
 }
 
-
 .nav-link.active::after {
-  content: "";
+  content: '';
 
   position: absolute;
 
@@ -1721,7 +1636,6 @@ function signOut () {
   border-radius: 10px;
 }
 
-
 /* ACTIONS */
 
 .nav-actions {
@@ -1732,13 +1646,11 @@ function signOut () {
   gap: 8px;
 }
 
-
 .login-btn {
   color: #334155;
 
   font-weight: 600;
 }
-
 
 .nav-report-btn {
   min-height: 42px;
@@ -1753,10 +1665,8 @@ function signOut () {
 
   font-weight: 700;
 
-  box-shadow:
-    0 7px 18px rgba(30, 64, 175, 0.28);
+  box-shadow: 0 7px 18px rgba(30, 64, 175, 0.28);
 }
-
 
 /* =====================================================
    HERO
@@ -1779,7 +1689,6 @@ function signOut () {
     #f1f5f9;
 }
 
-
 .hero-container {
   width: 100%;
   max-width: 1240px;
@@ -1801,13 +1710,11 @@ function signOut () {
   gap: 70px;
 }
 
-
 /* HERO LEFT */
 
 .hero-content {
   max-width: 610px;
 }
-
 
 .hero-badge {
   display: inline-flex;
@@ -1833,7 +1740,6 @@ function signOut () {
   margin-bottom: 22px;
 }
 
-
 .badge-dot {
   width: 7px;
   height: 7px;
@@ -1842,10 +1748,8 @@ function signOut () {
 
   background: #1e40af;
 
-  box-shadow:
-    0 0 0 4px rgba(30, 64, 175, 0.15);
+  box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.15);
 }
-
 
 .hero-title {
   margin: 0;
@@ -1861,7 +1765,6 @@ function signOut () {
   color: #0f172a;
 }
 
-
 .hero-title span {
   display: block;
 
@@ -1870,7 +1773,6 @@ function signOut () {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-
 
 .hero-description {
   max-width: 540px;
@@ -1884,7 +1786,6 @@ function signOut () {
   line-height: 1.75;
 }
 
-
 /* BUTTONS */
 
 .hero-buttons {
@@ -1894,7 +1795,6 @@ function signOut () {
 
   gap: 12px;
 }
-
 
 .primary-btn {
   min-height: 52px;
@@ -1911,10 +1811,8 @@ function signOut () {
 
   font-weight: 700;
 
-  box-shadow:
-    0 10px 25px rgba(30, 64, 175, 0.30);
+  box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
 }
-
 
 .secondary-btn {
   min-height: 52px;
@@ -1928,7 +1826,6 @@ function signOut () {
   font-weight: 700;
 }
 
-
 /* TRUST */
 
 .hero-trust {
@@ -1941,11 +1838,9 @@ function signOut () {
   gap: 13px;
 }
 
-
 .trust-avatars {
   display: flex;
 }
-
 
 .avatar {
   width: 30px;
@@ -1972,11 +1867,9 @@ function signOut () {
   color: #1d4ed8;
 }
 
-
 .avatar:first-child {
   margin-left: 0;
 }
-
 
 .avatar-2 {
   background: #e0e7ff;
@@ -1984,20 +1877,17 @@ function signOut () {
   color: #4338ca;
 }
 
-
 .avatar-3 {
   background: #dcfce7;
 
   color: #15803d;
 }
 
-
 .avatar-4 {
   background: #0f4cdb;
 
   color: white;
 }
-
 
 .trust-text {
   display: flex;
@@ -2007,20 +1897,17 @@ function signOut () {
   gap: 2px;
 }
 
-
 .trust-text strong {
   font-size: 12px;
 
   color: #334155;
 }
 
-
 .trust-text span {
   font-size: 11px;
 
   color: #94a3b8;
 }
-
 
 /* =====================================================
    HERO VISUAL
@@ -2038,7 +1925,6 @@ function signOut () {
   justify-content: center;
 }
 
-
 .visual-glow {
   position: absolute;
 
@@ -2051,7 +1937,6 @@ function signOut () {
 
   filter: blur(30px);
 }
-
 
 /* DASHBOARD */
 
@@ -2077,7 +1962,6 @@ function signOut () {
   z-index: 2;
 }
 
-
 .dashboard-header {
   display: flex;
 
@@ -2087,7 +1971,6 @@ function signOut () {
 
   margin-bottom: 22px;
 }
-
 
 .small-label {
   color: #94a3b8;
@@ -2099,7 +1982,6 @@ function signOut () {
   letter-spacing: 1.5px;
 }
 
-
 .dashboard-header h3 {
   margin: 5px 0 0;
 
@@ -2107,7 +1989,6 @@ function signOut () {
 
   color: #12233f;
 }
-
 
 .live-indicator {
   display: flex;
@@ -2129,7 +2010,6 @@ function signOut () {
   font-weight: 700;
 }
 
-
 .live-indicator span {
   width: 6px;
   height: 6px;
@@ -2138,7 +2018,6 @@ function signOut () {
 
   background: #22c55e;
 }
-
 
 /* MINI STATS */
 
@@ -2151,7 +2030,6 @@ function signOut () {
 
   margin-bottom: 22px;
 }
-
 
 .mini-stat {
   padding: 15px;
@@ -2169,7 +2047,6 @@ function signOut () {
   border-radius: 12px;
 }
 
-
 .mini-icon {
   width: 38px;
   height: 38px;
@@ -2183,20 +2060,17 @@ function signOut () {
   justify-content: center;
 }
 
-
 .mini-icon.blue {
   background: #dbeafe;
 
   color: #1e40af;
 }
 
-
 .mini-icon.orange {
   background: #ffedd5;
 
   color: #c2410c;
 }
-
 
 .mini-stat strong {
   display: block;
@@ -2205,7 +2079,6 @@ function signOut () {
 
   color: #0f172a;
 }
-
 
 .mini-stat span {
   display: block;
@@ -2217,13 +2090,11 @@ function signOut () {
   color: #64748b;
 }
 
-
 /* PROGRESS */
 
 .progress-section {
   margin-bottom: 22px;
 }
-
 
 .progress-top {
   display: flex;
@@ -2237,11 +2108,9 @@ function signOut () {
   color: #64748b;
 }
 
-
 .progress-top strong {
   color: #1e40af;
 }
-
 
 .progress-bar {
   height: 7px;
@@ -2253,7 +2122,6 @@ function signOut () {
   overflow: hidden;
 }
 
-
 .progress-value {
   width: 78%;
 
@@ -2264,7 +2132,6 @@ function signOut () {
   background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%);
 }
 
-
 /* ISSUE LIST */
 
 .issue-list {
@@ -2274,7 +2141,6 @@ function signOut () {
 
   gap: 9px;
 }
-
 
 .issue-item {
   display: flex;
@@ -2290,11 +2156,9 @@ function signOut () {
   transition: 0.2s;
 }
 
-
 .issue-item:hover {
   background: #f8fafc;
 }
-
 
 .issue-icon {
   width: 34px;
@@ -2311,13 +2175,11 @@ function signOut () {
   justify-content: center;
 }
 
-
 .issue-icon.maintenance {
   background: #eef2ff;
 
   color: #4f46e5;
 }
-
 
 .issue-icon.it {
   background: #e0f2fe;
@@ -2325,20 +2187,17 @@ function signOut () {
   color: #0284c7;
 }
 
-
 .issue-icon.facility {
   background: #fef3c7;
 
   color: #d97706;
 }
 
-
 .issue-info {
   flex: 1;
 
   min-width: 0;
 }
-
 
 .issue-info strong {
   display: block;
@@ -2347,7 +2206,6 @@ function signOut () {
 
   font-size: 11px;
 }
-
 
 .issue-info span {
   display: block;
@@ -2358,7 +2216,6 @@ function signOut () {
 
   font-size: 9px;
 }
-
 
 /* STATUS */
 
@@ -2374,13 +2231,11 @@ function signOut () {
   font-weight: 800;
 }
 
-
 .status.resolved {
   color: #15803d;
 
   background: #dcfce7;
 }
-
 
 .status.progress {
   color: #1d4ed8;
@@ -2388,13 +2243,11 @@ function signOut () {
   background: #dbeafe;
 }
 
-
 .status.pending {
   color: #b45309;
 
   background: #fef3c7;
 }
-
 
 /* =====================================================
    HERO BOTTOM
@@ -2417,7 +2270,6 @@ function signOut () {
   gap: 30px;
 }
 
-
 .bottom-item {
   display: flex;
 
@@ -2425,7 +2277,6 @@ function signOut () {
 
   gap: 12px;
 }
-
 
 .bottom-icon {
   width: 40px;
@@ -2448,7 +2299,6 @@ function signOut () {
   border: 1px solid #bfdbfe;
 }
 
-
 .bottom-item strong {
   display: block;
 
@@ -2456,7 +2306,6 @@ function signOut () {
 
   color: #1e293b;
 }
-
 
 .bottom-item span {
   display: block;
@@ -2468,7 +2317,6 @@ function signOut () {
   color: #64748b;
 }
 
-
 /* =====================================================
    SECTIONS
 ===================================================== */
@@ -2479,7 +2327,6 @@ function signOut () {
   box-sizing: border-box;
 }
 
-
 .section-heading {
   max-width: 670px;
 
@@ -2487,7 +2334,6 @@ function signOut () {
 
   text-align: center;
 }
-
 
 .section-tag {
   display: inline-block;
@@ -2509,7 +2355,6 @@ function signOut () {
   margin-bottom: 13px;
 }
 
-
 .section-heading h2 {
   margin: 0;
 
@@ -2522,7 +2367,6 @@ function signOut () {
   letter-spacing: -1.8px;
 }
 
-
 .section-heading p {
   margin: 18px auto 0;
 
@@ -2534,7 +2378,6 @@ function signOut () {
 
   line-height: 1.7;
 }
-
 
 /* =====================================================
    HOW IT WORKS (CLEAN WHITE PROFESSIONAL THEME)
@@ -2591,7 +2434,7 @@ function signOut () {
 
 /* Top accent bar */
 .step-card::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -2800,7 +2643,6 @@ function signOut () {
   gap: 10px;
 }
 
-
 /* =====================================================
    FEATURES (CLEAN LIGHT PROFESSIONAL THEME)
 ===================================================== */
@@ -2854,7 +2696,7 @@ function signOut () {
 
 /* Top accent bar */
 .feature-card::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -3127,7 +2969,7 @@ function signOut () {
   color: #f1f5f9;
   box-shadow:
     0 25px 70px rgba(0, 0, 0, 0.55),
-    0 10px 25px rgba(30, 64, 175, 0.20);
+    0 10px 25px rgba(30, 64, 175, 0.2);
 }
 
 .track-modal-header {
@@ -3237,7 +3079,7 @@ function signOut () {
 
 .sample-chip {
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #cbd5e1;
   padding: 3px 10px;
   border-radius: 12px;
@@ -3260,6 +3102,39 @@ function signOut () {
   border-radius: 16px;
   padding: 18px;
   margin-top: 12px;
+}
+
+.track-evidence {
+  margin-top: 16px;
+}
+
+.evidence-label {
+  margin-bottom: 8px;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.track-evidence a,
+.detail-evidence a {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.track-evidence img {
+  display: block;
+  width: min(100%, 360px);
+  max-height: 220px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  object-fit: cover;
 }
 
 .details-top {
@@ -3358,13 +3233,13 @@ function signOut () {
 }
 
 .timeline-node:not(:last-child)::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 24px;
   left: 11px;
   width: 2px;
   height: calc(100% - 10px);
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .timeline-node.completed:not(:last-child)::after {
@@ -3568,7 +3443,6 @@ function signOut () {
   color: #38bdf8;
 }
 
-
 /* =====================================================
    NAVBAR ENHANCEMENTS & USER CHIP
 ===================================================== */
@@ -3640,7 +3514,6 @@ function signOut () {
   color: white;
   font-weight: 700;
 }
-
 
 /* =====================================================
    ABOUT SECTION & PILLARS
@@ -3747,7 +3620,6 @@ function signOut () {
   line-height: 1.75;
 }
 
-
 /* =====================================================
    CTA
 ===================================================== */
@@ -3767,11 +3639,11 @@ function signOut () {
   position: relative;
   box-shadow:
     0 20px 50px rgba(15, 23, 42, 0.15),
-    0 8px 20px rgba(30, 64, 175, 0.10);
+    0 8px 20px rgba(30, 64, 175, 0.1);
 }
 
 .cta-container::after {
-  content: "";
+  content: '';
   position: absolute;
   width: 350px;
   height: 350px;
@@ -3840,7 +3712,6 @@ function signOut () {
   white-space: nowrap;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
-
 
 /* =====================================================
    FOOTER
@@ -3911,7 +3782,6 @@ function signOut () {
   font-size: 10px;
 }
 
-
 /* =====================================================
    RESPONSIVE
 ===================================================== */
@@ -3938,7 +3808,6 @@ function signOut () {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 
 @media (max-width: 900px) {
   .desktop-nav {
@@ -3996,7 +3865,6 @@ function signOut () {
     grid-template-columns: 1fr;
   }
 }
-
 
 @media (max-width: 650px) {
   .navbar {
@@ -4115,7 +3983,6 @@ function signOut () {
   }
 }
 
-
 @media (max-width: 420px) {
   .hero-title {
     font-size: 42px;
@@ -4133,5 +4000,4 @@ function signOut () {
     grid-template-columns: 1fr;
   }
 }
-
 </style>

@@ -1,5 +1,19 @@
 import { api } from '@/boot/axios'
 
+export function getIssueImageUrl(image) {
+  if (!image) return ''
+
+  const imagePath = String(image).trim()
+  if (/^https?:\/\//i.test(imagePath)) return imagePath
+
+  const normalizedPath = imagePath.replace(/\\/g, '/').replace(/^\/+/, '')
+  const uploadPath = normalizedPath.startsWith('uploads/')
+    ? normalizedPath
+    : `uploads/${normalizedPath.split('/').pop()}`
+
+  return `/${uploadPath.split('/').map(encodeURIComponent).join('/')}`
+}
+
 export async function createIssue(issueData) {
   const response = await api.post('/issues', issueData)
   return response.data

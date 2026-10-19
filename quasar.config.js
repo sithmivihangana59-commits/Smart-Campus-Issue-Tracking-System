@@ -5,16 +5,13 @@ import { defineConfig } from '#q-app'
 
 export default defineConfig((/* ctx */) => {
   return {
-
     // =====================================================
     // APPLICATION INFORMATION
     // =====================================================
 
     productName: 'Smart Campus | Issue Management',
 
-    productDescription:
-      'Smart Campus Issue Management System',
-
+    productDescription: 'Smart Campus Issue Management System',
 
     // =====================================================
     // BOOT FILES
@@ -25,17 +22,13 @@ export default defineConfig((/* ctx */) => {
 
     boot: ['axios'],
 
-
     // =====================================================
     // CSS
     // =====================================================
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
 
-    css: [
-      'app.scss'
-    ],
-
+    css: ['app.scss'],
 
     // =====================================================
     // EXTRAS
@@ -44,7 +37,6 @@ export default defineConfig((/* ctx */) => {
     // https://github.com/quasarframework/quasar/tree/dev/extras
 
     extras: [
-
       // 'ionicons-v4',
       // 'mdi-v7',
       // 'fontawesome-v7',
@@ -56,7 +48,6 @@ export default defineConfig((/* ctx */) => {
       'material-icons'
     ],
 
-
     // =====================================================
     // BUILD
     // =====================================================
@@ -64,7 +55,6 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#build
 
     build: {
-
       target: {
         // browser: 'baseline-widely-available',
         // node: 'node22'
@@ -95,9 +85,7 @@ export default defineConfig((/* ctx */) => {
       //     { server: true, client: true }
       //   ]
       // ]
-
     },
-
 
     // =====================================================
     // DEVELOPMENT SERVER
@@ -106,7 +94,6 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
 
     devServer: {
-
       // vueDevtools: true,
 
       // https: true,
@@ -117,11 +104,13 @@ export default defineConfig((/* ctx */) => {
         '/api': {
           target: 'http://localhost:5000',
           changeOrigin: true
+        },
+        '/uploads': {
+          target: 'http://localhost:5000',
+          changeOrigin: true
         }
       }
-
     },
-
 
     // =====================================================
     // QUASAR FRAMEWORK
@@ -130,7 +119,6 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
 
     framework: {
-
       config: {},
 
       // iconSet: 'material-icons',
@@ -140,16 +128,13 @@ export default defineConfig((/* ctx */) => {
       // directives: [],
 
       plugins: []
-
     },
-
 
     // =====================================================
     // ANIMATIONS
     // =====================================================
 
     animations: [],
-
 
     // =====================================================
     // SOURCE FILES
@@ -166,7 +151,6 @@ export default defineConfig((/* ctx */) => {
     //   electronPreload: 'src-electron/electron-preload'
     // },
 
-
     // =====================================================
     // SSR
     // =====================================================
@@ -174,15 +158,10 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/developing-ssr/configuring-ssr
 
     ssr: {
-
       prodPort: 3000,
 
-      middlewares: [
-        'render'
-      ]
-
+      middlewares: ['render']
     },
-
 
     // =====================================================
     // SSG
@@ -191,7 +170,6 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/developing-ssg/configuring-ssg
 
     ssg: {
-
       // onSsgRendererError: 'abort',
       // ssgRendererConcurrency: 1,
       // ssgRendererRetryCount: 0,
@@ -208,9 +186,7 @@ export default defineConfig((/* ctx */) => {
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
       // prodScriptNamedExport: false,
-
     },
-
 
     // =====================================================
     // PWA
@@ -219,7 +195,6 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
 
     pwa: {
-
       workboxMode: 'GenerateSW'
 
       // swFilename: 'sw.js',
@@ -231,9 +206,7 @@ export default defineConfig((/* ctx */) => {
       // extendPWAGenerateSWOptions (cfg) {},
       // extendPWAInjectManifestOptions (cfg) {},
       // extendPWASwTsConfig (tsConfig) {}
-
     },
-
 
     // =====================================================
     // CORDOVA
@@ -243,7 +216,6 @@ export default defineConfig((/* ctx */) => {
 
     cordova: {},
 
-
     // =====================================================
     // CAPACITOR
     // =====================================================
@@ -251,11 +223,8 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor
 
     capacitor: {
-
       hideSplashscreen: true
-
     },
-
 
     // =====================================================
     // ELECTRON
@@ -264,11 +233,8 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron
 
     electron: {
-
       // Electron preload scripts
-      preloadScripts: [
-        'electron-preload'
-      ],
+      preloadScripts: ['electron-preload'],
 
       // Debugging port
       inspectPort: 5858,
@@ -276,26 +242,19 @@ export default defineConfig((/* ctx */) => {
       bundler: 'packager',
 
       packager: {
-
         // macOS / App Store
         // appBundleId: '',
         // appCategoryType: '',
         // osxSign: '',
         // protocol: '',
-
         // Windows
         // win32metadata: { ... }
-
       },
 
       builder: {
-
         appId: 'smart-campus-issue-tracking-system'
-
       }
-
     },
-
 
     // =====================================================
     // BROWSER EXTENSION
@@ -304,7 +263,6 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex
 
     bex: {
-
       // extendBexScriptsConf (rolldownConf) {},
       // extendBexManifestJson (json) {},
 
@@ -313,8 +271,6 @@ export default defineConfig((/* ctx */) => {
        */
 
       extraScripts: []
-
     }
-
   }
 })

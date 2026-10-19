@@ -1,6 +1,5 @@
 <template>
   <q-page class="staff-dashboard-page">
-
     <!-- BACKGROUND -->
     <div class="dash-bg">
       <div class="bg-orb orb-1"></div>
@@ -8,7 +7,6 @@
     </div>
 
     <div class="dash-wrapper">
-
       <!-- HEADER -->
       <div class="dash-header">
         <div class="dash-header-left">
@@ -40,7 +38,6 @@
         </div>
       </div>
 
-
       <!-- PAGE TITLE -->
       <div class="dash-title-block">
         <div class="title-badge">
@@ -49,15 +46,13 @@
         </div>
         <h1 class="dash-title">Manage Campus Issues</h1>
         <p class="dash-subtitle">
-          View and manage all reported campus issues.
-          Use the filters below to find specific issues quickly.
+          View and manage all reported campus issues. Use the filters below to
+          find specific issues quickly.
         </p>
       </div>
 
-
       <!-- STATS ROW -->
       <div class="stats-row">
-
         <div class="stat-card">
           <div class="stat-icon pending-icon">
             <q-icon name="hourglass_empty" size="20px" />
@@ -97,13 +92,10 @@
             <div class="stat-label">Total Issues</div>
           </div>
         </div>
-
       </div>
-
 
       <!-- FILTER BAR -->
       <div class="filter-bar">
-
         <div class="search-wrap">
           <q-icon name="search" class="search-icon" />
           <input
@@ -135,9 +127,7 @@
             Refresh
           </button>
         </div>
-
       </div>
-
 
       <!-- LOADING STATE -->
       <div v-if="loading" class="state-box">
@@ -157,7 +147,11 @@
         <q-icon name="inbox" size="48px" color="grey-5" />
         <p v-if="issues.length === 0">No issues have been reported yet.</p>
         <p v-else>No issues match your current filters.</p>
-        <button v-if="issues.length > 0" class="retry-btn" @click="clearFilters">
+        <button
+          v-if="issues.length > 0"
+          class="retry-btn"
+          @click="clearFilters"
+        >
           Clear Filters
         </button>
       </div>
@@ -173,7 +167,9 @@
           <!-- CARD LEFT -->
           <div class="card-left">
             <div class="card-top-row">
-              <div class="issue-ref">#{{ issue._id.slice(-8).toUpperCase() }}</div>
+              <div class="issue-ref"
+                >#{{ issue._id.slice(-8).toUpperCase() }}</div
+              >
               <div class="status-pill" :class="statusClass(issue.status)">
                 <span class="status-dot"></span>
                 {{ issue.status }}
@@ -220,21 +216,27 @@
           </div>
         </div>
       </div>
-
     </div>
-
 
     <!-- ===== DETAIL MODAL ===== -->
     <q-dialog v-model="detailOpen" backdrop-filter="blur(10px)">
       <div v-if="selectedIssue" class="detail-modal">
-
         <!-- MODAL HEADER -->
         <div class="detail-header">
           <div>
-            <div class="detail-ref">#{{ selectedIssue._id.slice(-8).toUpperCase() }}</div>
+            <div class="detail-ref"
+              >#{{ selectedIssue._id.slice(-8).toUpperCase() }}</div
+            >
             <h3 class="detail-title">{{ selectedIssue.title }}</h3>
           </div>
-          <q-btn flat round dense icon="close" v-close-popup class="modal-close" />
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            v-close-popup
+            class="modal-close"
+          />
         </div>
 
         <!-- STATUS + PRIORITY PILLS -->
@@ -243,32 +245,42 @@
             <span class="status-dot"></span>
             {{ selectedIssue.status }}
           </div>
-          <div class="priority-pill" :class="priorityClass(selectedIssue.priority)">
+          <div
+            class="priority-pill"
+            :class="priorityClass(selectedIssue.priority)"
+          >
             {{ selectedIssue.priority }} Priority
           </div>
         </div>
 
         <!-- ISSUE FIELDS GRID -->
         <div class="detail-grid">
-
           <div class="detail-field">
             <div class="field-label">Category</div>
-            <div class="field-val">{{ selectedIssue.category || 'Not available' }}</div>
+            <div class="field-val">{{
+              selectedIssue.category || 'Not available'
+            }}</div>
           </div>
 
           <div class="detail-field">
             <div class="field-label">Building</div>
-            <div class="field-val">{{ selectedIssue.building || 'Not available' }}</div>
+            <div class="field-val">{{
+              selectedIssue.building || 'Not available'
+            }}</div>
           </div>
 
           <div class="detail-field">
             <div class="field-label">Room / Floor</div>
-            <div class="field-val">{{ selectedIssue.room || 'Not available' }}</div>
+            <div class="field-val">{{
+              selectedIssue.room || 'Not available'
+            }}</div>
           </div>
 
           <div class="detail-field">
             <div class="field-label">Priority</div>
-            <div class="field-val">{{ selectedIssue.priority || 'Not available' }}</div>
+            <div class="field-val">{{
+              selectedIssue.priority || 'Not available'
+            }}</div>
           </div>
 
           <div class="detail-field">
@@ -287,12 +299,16 @@
 
           <div class="detail-field">
             <div class="field-label">Reported On</div>
-            <div class="field-val">{{ formatDate(selectedIssue.createdAt) }}</div>
+            <div class="field-val">{{
+              formatDate(selectedIssue.createdAt)
+            }}</div>
           </div>
 
           <div class="detail-field">
             <div class="field-label">Last Updated</div>
-            <div class="field-val">{{ formatDate(selectedIssue.updatedAt) }}</div>
+            <div class="field-val">{{
+              formatDate(selectedIssue.updatedAt)
+            }}</div>
           </div>
 
           <div class="detail-field full-width">
@@ -301,33 +317,49 @@
               <span v-if="selectedIssue.assignedTo?.name" class="assigned-name">
                 <q-icon name="engineering" size="15px" color="primary" />
                 {{ selectedIssue.assignedTo.name }}
-                <span class="assigned-email" v-if="selectedIssue.assignedTo.email">
+                <span
+                  class="assigned-email"
+                  v-if="selectedIssue.assignedTo.email"
+                >
                   ({{ selectedIssue.assignedTo.email }})
                 </span>
               </span>
               <span v-else class="not-assigned">Not assigned</span>
             </div>
           </div>
-
         </div>
 
         <!-- DESCRIPTION -->
         <div class="detail-desc-block">
           <div class="field-label">Description</div>
-          <p class="detail-desc-text">{{ selectedIssue.description || 'No description provided.' }}</p>
+          <p class="detail-desc-text">{{
+            selectedIssue.description || 'No description provided.'
+          }}</p>
         </div>
 
+        <div v-if="issueImageUrl(selectedIssue.image)" class="detail-evidence">
+          <div class="field-label">Photo Evidence</div>
+          <a
+            :href="issueImageUrl(selectedIssue.image)"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              :src="issueImageUrl(selectedIssue.image)"
+              alt="Student-provided issue photo evidence"
+            />
+            <span>Open photo in a new tab</span>
+          </a>
+        </div>
 
         <!-- ── UPDATE STATUS SECTION ── -->
         <div class="assign-section">
-
           <div class="assign-section-title">
             <q-icon name="published_with_changes" size="17px" color="primary" />
             Update Issue Status
           </div>
 
           <div class="assign-controls">
-
             <select v-model="selectedStatus" class="staff-select">
               <option value="Pending">Pending</option>
               <option value="In Progress">In Progress</option>
@@ -347,22 +379,20 @@
 
             <button
               class="assign-btn"
-              :disabled="updatingStatus || selectedStatus === selectedIssue.status"
+              :disabled="
+                updatingStatus || selectedStatus === selectedIssue.status
+              "
               @click="doUpdateStatus"
             >
               <q-spinner v-if="updatingStatus" size="16px" />
               <q-icon v-else name="save" size="16px" />
               {{ updatingStatus ? 'Updating...' : 'Update Status' }}
             </button>
-
           </div>
-
         </div>
-
 
         <!-- ── ASSIGN SECTION ── -->
         <div class="assign-section">
-
           <div class="assign-section-title">
             <q-icon name="person_add" size="17px" color="primary" />
             Assign Issue to Staff
@@ -388,7 +418,6 @@
 
           <!-- Assignment controls -->
           <div v-else class="assign-controls">
-
             <select v-model="selectedStaffId" class="staff-select">
               <option value="">— Select a Staff member —</option>
               <option
@@ -419,22 +448,17 @@
               <q-icon v-else name="assignment_ind" size="16px" />
               {{ assigning ? 'Assigning...' : 'Assign Issue' }}
             </button>
-
           </div>
-
         </div>
-
 
         <!-- ── ADD ISSUE UPDATE SECTION ── -->
         <div class="assign-section">
-
           <div class="assign-section-title">
             <q-icon name="add_comment" size="17px" color="primary" />
             Add Issue Update
           </div>
 
           <div class="assign-controls">
-
             <textarea
               v-model="updateMessage"
               rows="3"
@@ -460,15 +484,11 @@
               <q-icon v-else name="send" size="16px" />
               {{ addingUpdate ? 'Adding...' : 'Add Update' }}
             </button>
-
           </div>
-
         </div>
-
 
         <!-- ── UPDATE HISTORY SECTION ── -->
         <div class="assign-section">
-
           <div class="assign-section-title">
             <q-icon name="history" size="17px" color="primary" />
             Update History
@@ -490,11 +510,7 @@
           </div>
 
           <div v-else class="history-list">
-            <div
-              v-for="up in issueUpdates"
-              :key="up._id"
-              class="history-item"
-            >
+            <div v-for="up in issueUpdates" :key="up._id" class="history-item">
               <div class="history-header">
                 <div class="status-pill" :class="statusClass(up.status)">
                   <span class="status-dot"></span>
@@ -509,27 +525,29 @@
               </div>
             </div>
           </div>
-
         </div>
-
 
         <!-- MODAL FOOTER -->
         <div class="detail-actions">
-          <q-btn flat no-caps label="Close" v-close-popup class="modal-dismiss-btn" />
+          <q-btn
+            flat
+            no-caps
+            label="Close"
+            v-close-popup
+            class="modal-dismiss-btn"
+          />
         </div>
-
       </div>
     </q-dialog>
-
   </q-page>
 </template>
-
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   getAllIssues,
+  getIssueImageUrl,
   assignIssue,
   getStaffList,
   updateIssue,
@@ -583,7 +601,7 @@ async function loadIssues() {
   error.value = ''
   try {
     const data = await getAllIssues()
-    issues.value = Array.isArray(data) ? data : (data.issues || [])
+    issues.value = Array.isArray(data) ? data : data.issues || []
   } catch (err) {
     error.value =
       err.response?.data?.message ||
@@ -606,12 +624,15 @@ const filterPriority = ref('')
 const filteredIssues = computed(() => {
   return issues.value.filter(issue => {
     const q = searchQuery.value.toLowerCase()
-    const matchesSearch = !q ||
+    const matchesSearch =
+      !q ||
       issue.title?.toLowerCase().includes(q) ||
       issue.category?.toLowerCase().includes(q) ||
       issue.building?.toLowerCase().includes(q)
-    const matchesStatus = !filterStatus.value || issue.status === filterStatus.value
-    const matchesPriority = !filterPriority.value || issue.priority === filterPriority.value
+    const matchesStatus =
+      !filterStatus.value || issue.status === filterStatus.value
+    const matchesPriority =
+      !filterPriority.value || issue.priority === filterPriority.value
     return matchesSearch && matchesStatus && matchesPriority
   })
 })
@@ -635,8 +656,7 @@ async function loadStaff() {
     staffList.value = data.staff || []
   } catch (err) {
     staffError.value =
-      err.response?.data?.message ||
-      'Failed to load staff members.'
+      err.response?.data?.message || 'Failed to load staff members.'
   } finally {
     staffLoading.value = false
   }
@@ -645,6 +665,7 @@ async function loadStaff() {
 // ─── Detail Modal ─────────────────────────────────────────────────────────────
 const detailOpen = ref(false)
 const selectedIssue = ref(null)
+const issueImageUrl = getIssueImageUrl
 
 // Assignment state
 const selectedStaffId = ref('')
@@ -698,11 +719,10 @@ async function loadHistory() {
   historyError.value = ''
   try {
     const data = await getIssueUpdates(selectedIssue.value._id)
-    issueUpdates.value = Array.isArray(data) ? data : (data.updates || [])
+    issueUpdates.value = Array.isArray(data) ? data : data.updates || []
   } catch (err) {
     historyError.value =
-      err.response?.data?.message ||
-      'Failed to load update history.'
+      err.response?.data?.message || 'Failed to load update history.'
   } finally {
     historyLoading.value = false
   }
@@ -747,15 +767,21 @@ async function doAssign() {
   assignError.value = ''
 
   try {
-    const data = await assignIssue(selectedIssue.value._id, selectedStaffId.value)
+    const data = await assignIssue(
+      selectedIssue.value._id,
+      selectedStaffId.value
+    )
 
     const updatedIssue = data.issue || data
     const idx = issues.value.findIndex(i => i._id === selectedIssue.value._id)
     if (idx !== -1) {
-      const assignedStaff = staffList.value.find(s => s._id === selectedStaffId.value)
+      const assignedStaff = staffList.value.find(
+        s => s._id === selectedStaffId.value
+      )
       issues.value[idx] = {
         ...issues.value[idx],
-        assignedTo: updatedIssue.assignedTo || assignedStaff || { _id: selectedStaffId.value }
+        assignedTo: updatedIssue.assignedTo ||
+          assignedStaff || { _id: selectedStaffId.value }
       }
       selectedIssue.value = { ...issues.value[idx] }
     }
@@ -779,7 +805,9 @@ async function doUpdateStatus() {
   updateStatusError.value = ''
 
   try {
-    const data = await updateIssue(selectedIssue.value._id, { status: selectedStatus.value })
+    const data = await updateIssue(selectedIssue.value._id, {
+      status: selectedStatus.value
+    })
     const updated = data.issue || data
 
     const newStatus = updated.status || selectedStatus.value
@@ -824,27 +852,25 @@ function truncate(text, max) {
 
 function statusClass(status) {
   const map = {
-    'Pending': 'status-pending',
+    Pending: 'status-pending',
     'In Progress': 'status-inprogress',
-    'Resolved': 'status-resolved',
-    'Rejected': 'status-rejected'
+    Resolved: 'status-resolved',
+    Rejected: 'status-rejected'
   }
   return map[status] || 'status-pending'
 }
 
 function priorityClass(priority) {
   const map = {
-    'Low': 'priority-low',
-    'Medium': 'priority-medium',
-    'High': 'priority-high'
+    Low: 'priority-low',
+    Medium: 'priority-medium',
+    High: 'priority-high'
   }
   return map[priority] || 'priority-medium'
 }
 </script>
 
-
 <style scoped>
-
 /* ─── BASE ─────────────────────────────────────────────────────────────── */
 .staff-dashboard-page {
   width: 100%;
@@ -1034,10 +1060,22 @@ function priorityClass(priority) {
   flex-shrink: 0;
 }
 
-.pending-icon    { background: #fef3c7; color: #d97706; }
-.inprogress-icon { background: #dbeafe; color: #2563eb; }
-.resolved-icon   { background: #dcfce7; color: #16a34a; }
-.total-icon      { background: #ede9fe; color: #7c3aed; }
+.pending-icon {
+  background: #fef3c7;
+  color: #d97706;
+}
+.inprogress-icon {
+  background: #dbeafe;
+  color: #2563eb;
+}
+.resolved-icon {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.total-icon {
+  background: #ede9fe;
+  color: #7c3aed;
+}
 
 .stat-num {
   font-size: 22px;
@@ -1090,7 +1128,9 @@ function priorityClass(priority) {
   transition: border-color 0.2s;
 }
 
-.search-input:focus { border-color: #3b82f6; }
+.search-input:focus {
+  border-color: #3b82f6;
+}
 
 .filter-selects {
   display: flex;
@@ -1127,12 +1167,23 @@ function priorityClass(priority) {
   transition: background 0.15s;
 }
 
-.refresh-btn:hover:not(:disabled) { background: #f8fafc; }
-.refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.refresh-btn:hover:not(:disabled) {
+  background: #f8fafc;
+}
+.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
-.spinning { animation: spin 1s linear infinite; }
+.spinning {
+  animation: spin 1s linear infinite;
+}
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 /* ─── STATE BOX ───────────────────────────────────────────────────────── */
 .state-box {
@@ -1146,8 +1197,13 @@ function priorityClass(priority) {
   gap: 12px;
 }
 
-.state-box p { margin: 0; font-size: 14px; }
-.error-state { color: #ef4444; }
+.state-box p {
+  margin: 0;
+  font-size: 14px;
+}
+.error-state {
+  color: #ef4444;
+}
 
 .retry-btn {
   margin-top: 8px;
@@ -1161,7 +1217,9 @@ function priorityClass(priority) {
   font-weight: 500;
 }
 
-.retry-btn:hover { background: #f8fafc; }
+.retry-btn:hover {
+  background: #f8fafc;
+}
 
 /* ─── ISSUES LIST ─────────────────────────────────────────────────────── */
 .issues-list {
@@ -1180,7 +1238,10 @@ function priorityClass(priority) {
   justify-content: space-between;
   gap: 16px;
   cursor: pointer;
-  transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s,
+    transform 0.15s;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
@@ -1190,7 +1251,10 @@ function priorityClass(priority) {
   transform: translateY(-1px);
 }
 
-.card-left { flex: 1; min-width: 0; }
+.card-left {
+  flex: 1;
+  min-width: 0;
+}
 
 .card-top-row {
   display: flex;
@@ -1269,7 +1333,9 @@ function priorityClass(priority) {
   transition: background 0.15s;
 }
 
-.view-btn:hover { background: #dbeafe; }
+.view-btn:hover {
+  background: #dbeafe;
+}
 
 /* ─── STATUS PILLS ────────────────────────────────────────────────────── */
 .status-pill {
@@ -1291,10 +1357,22 @@ function priorityClass(priority) {
   flex-shrink: 0;
 }
 
-.status-pending    { background: #fef3c7; color: #d97706; }
-.status-inprogress { background: #dbeafe; color: #2563eb; }
-.status-resolved   { background: #dcfce7; color: #16a34a; }
-.status-rejected   { background: #fee2e2; color: #dc2626; }
+.status-pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+.status-inprogress {
+  background: #dbeafe;
+  color: #2563eb;
+}
+.status-resolved {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.status-rejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
 /* ─── PRIORITY PILLS ──────────────────────────────────────────────────── */
 .priority-pill {
@@ -1306,9 +1384,21 @@ function priorityClass(priority) {
   font-weight: 700;
 }
 
-.priority-low    { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
-.priority-medium { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
-.priority-high   { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
+.priority-low {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+.priority-medium {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+.priority-high {
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+}
 
 /* ─── DETAIL MODAL ────────────────────────────────────────────────────── */
 .detail-modal {
@@ -1345,7 +1435,9 @@ function priorityClass(priority) {
   padding-right: 12px;
 }
 
-.modal-close { color: #94a3b8 !important; }
+.modal-close {
+  color: #94a3b8 !important;
+}
 
 .detail-pills {
   display: flex;
@@ -1364,7 +1456,9 @@ function priorityClass(priority) {
   border: 1px solid #e2e8f0;
 }
 
-.full-width { grid-column: 1 / -1; }
+.full-width {
+  grid-column: 1 / -1;
+}
 
 .detail-field {
   display: flex;
@@ -1414,6 +1508,24 @@ function priorityClass(priority) {
   font-size: 14px;
   color: #374151;
   line-height: 1.6;
+}
+
+.detail-evidence {
+  margin-bottom: 20px;
+}
+
+.detail-evidence a {
+  margin-top: 8px;
+  color: #2563eb;
+}
+
+.detail-evidence img {
+  display: block;
+  width: min(100%, 420px);
+  max-height: 300px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  object-fit: cover;
 }
 
 /* ─── ASSIGN SECTION & UPDATE SECTIONS ───────────────────────────────── */
@@ -1481,7 +1593,9 @@ function priorityClass(priority) {
   cursor: pointer;
 }
 
-.staff-select:focus { border-color: #3b82f6; }
+.staff-select:focus {
+  border-color: #3b82f6;
+}
 
 .update-textarea {
   width: 100%;
@@ -1578,7 +1692,9 @@ function priorityClass(priority) {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
+  transition:
+    opacity 0.2s,
+    transform 0.15s;
   width: 100%;
 }
 
@@ -1601,11 +1717,15 @@ function priorityClass(priority) {
   border-top: 1px solid #f1f5f9;
 }
 
-.modal-dismiss-btn { color: #64748b !important; }
+.modal-dismiss-btn {
+  color: #64748b !important;
+}
 
 /* ─── RESPONSIVE ──────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   .dash-header {
     flex-direction: column;
@@ -1613,20 +1733,38 @@ function priorityClass(priority) {
     gap: 14px;
   }
 
-  .issue-card { flex-direction: column; }
-  .card-right { width: 100%; }
-  .view-btn { width: 100%; justify-content: center; }
-  .detail-grid { grid-template-columns: 1fr; }
+  .issue-card {
+    flex-direction: column;
+  }
+  .card-right {
+    width: 100%;
+  }
+  .view-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
-  .stats-row { grid-template-columns: 1fr 1fr; }
+  .stats-row {
+    grid-template-columns: 1fr 1fr;
+  }
 
-  .filter-bar { flex-direction: column; align-items: stretch; }
-  .filter-selects { flex-direction: column; }
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-selects {
+    flex-direction: column;
+  }
 
   .filter-select,
-  .refresh-btn { width: 100%; justify-content: center; }
+  .refresh-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
-
 </style>

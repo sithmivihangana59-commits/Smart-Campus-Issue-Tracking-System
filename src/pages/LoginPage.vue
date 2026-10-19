@@ -258,6 +258,11 @@
               </template>
             </q-btn>
 
+            <p class="registration-prompt">
+              Don’t have an account?
+              <router-link to="/register">Create an account</router-link>
+            </p>
+
           </form>
 
           <!-- SECURITY BADGE FOOTER -->
@@ -1219,6 +1224,25 @@ function sendResetLink () {
   transform: translateY(0);
 }
 
+.registration-prompt {
+  margin: 0;
+  color: #64748b;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  text-align: center;
+}
+
+.registration-prompt a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.registration-prompt a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
 /* CARD FOOTER */
 .auth-card-footer {
   display: flex;
@@ -1491,10 +1515,14 @@ function sendResetLink () {
 }
 
 .login-page {
-  background:
-    radial-gradient(ellipse at 8% 12%, rgba(59, 130, 246, 0.12), transparent 34%),
-    radial-gradient(ellipse at 100% 86%, rgba(129, 140, 248, 0.12), transparent 34%),
-    linear-gradient(135deg, #f8fbff 0%, #edf4ff 54%, #f7f8ff 100%);
+  background-image: url('../assets/campus-landscape-clean.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.login-bg {
+  display: none;
 }
 
 .bg-grid-pattern {
@@ -1514,8 +1542,27 @@ function sendResetLink () {
 }
 
 .brand-panel-inner {
+  position: relative;
+  z-index: 0;
   width: 100%;
   max-width: 760px;
+  isolation: isolate;
+}
+
+.brand-panel-inner::before {
+  position: absolute;
+  z-index: -1;
+  inset: -24px -30px;
+  border-radius: 28px;
+  background: radial-gradient(
+    ellipse at 30% 38%,
+    rgba(255, 255, 255, 0.48) 0%,
+    rgba(255, 255, 255, 0.34) 48%,
+    rgba(255, 255, 255, 0.1) 78%,
+    transparent 100%
+  );
+  content: '';
+  pointer-events: none;
 }
 
 .brand-header {
@@ -1604,19 +1651,7 @@ function sendResetLink () {
 }
 
 .campus-tech-showcase::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0 38% -4px 0;
-  background-image: url('../assets/campus-landscape-clean.png');
-  background-repeat: no-repeat;
-  background-position: 50% 72%;
-  background-size: cover;
-  border-radius: 22px;
-  box-shadow: 0 18px 38px -22px rgba(15, 45, 110, 0.38);
-  content: '';
-  opacity: 0.94;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%);
+  display: none;
 }
 
 .showcase-preview {
