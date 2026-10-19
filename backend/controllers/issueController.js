@@ -1,4 +1,17 @@
 const Issue = require("../models/Issue");
+const fs = require("fs/promises");
+
+const removeUploadedFile = async (file) => {
+    if (!file?.path) return;
+
+    try {
+        await fs.unlink(file.path);
+    } catch (error) {
+        if (error.code !== "ENOENT") {
+            console.error("Failed to remove unassociated issue photo:", error);
+        }
+    }
+};
 
 // =====================================================
 // CREATE A NEW ISSUE
@@ -21,6 +34,7 @@ const createIssue = async (req, res) => {
             !title ||
             !description
         ) {
+            await removeUploadedFile(req.file);
             return res.status(400).json({
                 message:
                     "Category, building, title and description are required"
@@ -28,7 +42,7 @@ const createIssue = async (req, res) => {
         }
 
         // Handle optional image upload
-        const imagePath = req.file ? req.file.filename : null;
+        const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
         const newIssue = new Issue({
             category,
@@ -50,10 +64,10 @@ const createIssue = async (req, res) => {
         });
     } catch (error) {
         console.error("Create Issue Error:", error);
+        await removeUploadedFile(req.file);
 
         res.status(500).json({
-            message: "Failed to create issue",
-            error: error.message
+            message: "Failed to create issue"
         });
     }
 };

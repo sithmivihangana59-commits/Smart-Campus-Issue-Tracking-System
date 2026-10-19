@@ -5,29 +5,41 @@ const jwt = require("jsonwebtoken");
 // Register a new user
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password } = req.body || {};
 
-        if (!name || !email || !password) {
+        const normalizedName = typeof name === "string" ? name.trim() : "";
+        const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
+
+        if (!normalizedName || !normalizedEmail || !password) {
             return res.status(400).json({
                 message: "Name, email and password are required"
             });
         }
 
-        const normalizedEmail = String(email).trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+            return res.status(400).json({
+                message: "Please enter a valid email address"
+            });
+        }
+
+        if (typeof password !== "string" || password.length < 6) {
+            return res.status(400).json({
+                message: "Password must be at least 6 characters"
+            });
+        }
+
         const existingUser = await User.findOne({ email: normalizedEmail });
 
         if (existingUser) {
-            return res.status(400).json({
-                message: "User with this email already exists"
+            return res.status(409).json({
+                message: "This email is already registered. Please sign in instead."
             });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Security Enforcement: Public registration ALWAYS creates a Student account.
-        // Requested role from body is ignored to prevent unauthorized Staff/Admin creation.
         const newUser = new User({
-            name,
+            name: normalizedName,
             email: normalizedEmail,
             password: hashedPassword,
             role: "Student"
@@ -46,11 +58,22 @@ const registerUser = async (req, res) => {
         });
 
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({
+                message: "This email is already registered. Please sign in instead."
+            });
+        }
+
+        if (error.name === "ValidationError") {
+            return res.status(400).json({
+                message: "Please check the registration details and try again."
+            });
+        }
+
         console.error("Register Error:", error);
 
         res.status(500).json({
-            message: "Failed to register user",
-            error: error.message
+            message: "Unable to create your account right now. Please try again."
         });
     }
 };

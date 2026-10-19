@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
 
 // Routes
 const issueRoutes = require("./routes/issueRoutes");
@@ -35,7 +36,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
 // Uploaded files
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Root route
 app.get("/", (req, res) => {
@@ -77,7 +78,8 @@ app.get("/api/test-db", async (req, res) => {
 mongoose
     .connect(MONGO_URI, {
         serverSelectionTimeoutMS: 10000,
-        tls: true
+        tls: true,
+        family: 4
     })
     .then(() => {
         console.log("MongoDB connected successfully!");

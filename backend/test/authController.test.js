@@ -22,9 +22,11 @@ const responseMock = () => ({
 test("public registration ignores the requested role and creates a Student", async () => {
     const originalFindOne = User.findOne;
     const originalSave = User.prototype.save;
+    let registeredUser;
 
     User.findOne = async () => null;
     User.prototype.save = async function () {
+        registeredUser = this;
         return this;
     };
 
@@ -32,7 +34,7 @@ test("public registration ignores the requested role and creates a Student", asy
         const res = responseMock();
         await registerUser({
             body: {
-                name: "New User",
+                name: "  New User  ",
                 email: "new@example.com",
                 password: "password123",
                 role: "Admin"
@@ -42,10 +44,95 @@ test("public registration ignores the requested role and creates a Student", asy
         assert.equal(res.statusCode, 201);
         assert.equal(res.body.user.role, "Student");
         assert.equal(res.body.user.email, "new@example.com");
+        assert.equal(res.body.user.name, "New User");
         assert.equal(Object.hasOwn(res.body.user, "password"), false);
+        assert.notEqual(registeredUser.password, "password123");
+        assert.equal(await bcrypt.compare("password123", registeredUser.password), true);
     } finally {
         User.findOne = originalFindOne;
         User.prototype.save = originalSave;
+    }
+});
+
+test("registration rejects invalid email and short passwords", async () => {
+    const cases = [
+        { name: "New User", email: "not-an-email", password: "password123" },
+        { name: "New User", email: "new@example.com", password: "12345" }
+    ];
+
+    for (const body of cases) {
+        const res = responseMock();
+        await registerUser({ body }, res);
+        assert.equal(res.statusCode, 400);
+        assert.equal(Object.hasOwn(res.body, "error"), false);
+    }
+});
+
+test("registration returns a conflict for an existing email", async () => {
+    const originalFindOne = User.findOne;
+    User.findOne = async () => ({ _id: "existing-user" });
+
+    try {
+        const res = responseMock();
+        await registerUser({
+            body: {
+                name: "New User",
+                email: "existing@example.com",
+                password: "password123"
+            }
+        }, res);
+
+        assert.equal(res.statusCode, 409);
+        assert.match(res.body.message, /already registered/i);
+        assert.equal(Object.hasOwn(res.body, "error"), false);
+    } finally {
+        User.findOne = originalFindOne;
+    }
+});
+
+test("a newly registered Student can log in", async () => {
+    const originalFindOne = User.findOne;
+    const originalSave = User.prototype.save;
+    const originalSecret = process.env.JWT_SECRET;
+    let registeredUser;
+
+    User.findOne = async ({ email }) => registeredUser?.email === email ? registeredUser : null;
+    User.prototype.save = async function () {
+        registeredUser = this;
+        return this;
+    };
+    process.env.JWT_SECRET = "test-secret";
+
+    try {
+        const registrationResponse = responseMock();
+        await registerUser({
+            body: {
+                name: "New Student",
+                email: "student@example.com",
+                password: "password123"
+            }
+        }, registrationResponse);
+
+        const loginResponse = responseMock();
+        await loginUser({
+            body: {
+                email: "STUDENT@example.com",
+                password: "password123"
+            }
+        }, loginResponse);
+
+        assert.equal(registrationResponse.statusCode, 201);
+        assert.equal(loginResponse.statusCode, 200);
+        assert.equal(loginResponse.body.user.role, "Student");
+        assert.equal(jwt.verify(loginResponse.body.token, process.env.JWT_SECRET).role, "Student");
+    } finally {
+        User.findOne = originalFindOne;
+        User.prototype.save = originalSave;
+        if (originalSecret === undefined) {
+            delete process.env.JWT_SECRET;
+        } else {
+            process.env.JWT_SECRET = originalSecret;
+        }
     }
 });
 

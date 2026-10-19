@@ -70,6 +70,35 @@ test("student issue creation keeps reporter, priority, pending status and option
     }
 });
 
+test("student issue creation stores the public upload path", async () => {
+    const originalSave = Issue.prototype.save;
+    Issue.prototype.save = async function () {
+        return this;
+    };
+
+    try {
+        const res = responseMock();
+        await createIssue({
+            body: {
+                category: "maintenance",
+                building: "Library",
+                title: "Broken light",
+                description: "The light is out"
+            },
+            file: { filename: "issue-photo.webp" },
+            user: {
+                userId: "507f1f77bcf86cd799439011",
+                role: "Student"
+            }
+        }, res);
+
+        assert.equal(res.statusCode, 201);
+        assert.equal(res.body.issue.image, "/uploads/issue-photo.webp");
+    } finally {
+        Issue.prototype.save = originalSave;
+    }
+});
+
 test("GET all issues returns unassigned student issues to Staff and limits Students to their own", async () => {
     const originalFind = Issue.find;
     const unassignedIssue = { _id: "issue-id", assignedTo: null };

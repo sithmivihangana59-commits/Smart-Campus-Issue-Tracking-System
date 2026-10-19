@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
+const uploadDirectory = path.join(__dirname, "..", "uploads");
 
 // =====================================================
 // MULTER SETUP (Image Upload)
@@ -10,20 +12,25 @@ const path = require("path");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/");
+        fs.mkdir(uploadDirectory, { recursive: true }, (error) => {
+            cb(error, uploadDirectory);
+        });
     },
     filename: (req, file, cb) => {
         const uniqueName = Date.now() + "-" + Math.round(Math.random() * 1e9);
-        cb(null, uniqueName + path.extname(file.originalname));
+        cb(null, uniqueName + path.extname(file.originalname).toLowerCase());
     }
 });
 
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-    if (allowedTypes.includes(file.mimetype)) {
+    const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
+    const extension = path.extname(file.originalname).toLowerCase();
+
+    if (allowedTypes.includes(file.mimetype) && allowedExtensions.includes(extension)) {
         cb(null, true);
     } else {
-        cb(new Error("Only JPEG and PNG images are allowed"), false);
+        cb(new Error("Only PNG, JPG, JPEG and WEBP images are allowed"), false);
     }
 };
 
@@ -32,6 +39,31 @@ const upload = multer({
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
     fileFilter: fileFilter
 });
+
+const uploadIssueImage = (req, res, next) => {
+    upload.single("image")(req, res, (error) => {
+        if (!error) return next();
+
+        if (error instanceof multer.MulterError) {
+            const status = error.code === "LIMIT_FILE_SIZE" ? 413 : 400;
+            const message = error.code === "LIMIT_FILE_SIZE"
+                ? "Photo evidence must be 10MB or smaller."
+                : "Unable to process the uploaded photo.";
+            return res.status(status).json({ message });
+        }
+
+        if (error.message === "Only PNG, JPG, JPEG and WEBP images are allowed") {
+            return res.status(400).json({
+                message: "Choose a PNG, JPG, JPEG or WEBP image."
+            });
+        }
+
+        console.error("Issue photo upload error:", error);
+        return res.status(500).json({
+            message: "Unable to save photo evidence. Please try again."
+        });
+    });
+};
 
 
 // =====================================================
@@ -78,7 +110,7 @@ router.post(
     "/",
     protect,
     authorizeRoles("Student", "Staff", "Admin"),
-    upload.single("image"),
+    uploadIssueImage,
     createIssue
 );
 
